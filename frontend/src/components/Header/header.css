@@ -1,0 +1,38 @@
+.header-section {
+    background-image: url('http://localhost/images/partnership.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 720px;
+    margin-bottom: 100px;
+}
+
+.header {
+    padding: 25px 0;
+    background-color: rgb(89, 242, 191);
+    margin-bottom: 70px;
+}
+
+.about {
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(255, 253, 242, 0.523);
+    border-radius: 30px;
+}
+
+.about-title {
+    margin-bottom: 25px;
+    font-size: 25px;
+    color: black;
+    padding-top: 15px;
+}
+
+.about-description {
+    font-size: 20px;
+    color: black;
+    font-weight: normal;
+    text-align: center;
+    max-width: 700px;
+    line-height: 1.7;
+    padding-bottom: 15px;
+}
