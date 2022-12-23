@@ -5,19 +5,19 @@ import './about.css'
 export default function About() {
     return (
         <section className='about-section'>
+            <h2 className='section-title'>
+                Как пользоваться Swapper?
+            </h2>
             <div className="container flex about-wrapper">
-                <h2 className='about-title'>
-                    Как пользоваться Swapper?
-                </h2>
                 <div className='flex about-description-wrapper'>
-                    <img src='http://localhost/images/doc.jpg' alt="1111" className='about-description-img' />
+                    <img src='http://localhost/images/doc.png' alt="doc" className='about-description-img' />
                     <p className='about-description-text'>
-                        Lorem ipsum dolor sit amet consectetur
-                        adipisicing elit. Hic, similique unde
-                        perferendis nostrum maxime sit eveniet
-                        tenetur molestiae accusantium neque
-                        dolorem autem cum quia error.
-                        Ipsum nesciunt earum non consequuntur.
+                        Если вы ищите людей для выгодных барторных отношений,
+                        то Swapper - ваш выбор. Чтобы найти свапера - нажмите 
+                        "Найти свапера". Для просмотра самых выгодных предложений 
+                        за сегодняшний день - перейдите в "Свапы дня". Хотите получить
+                        наилучший опыт сотрудничество с людьми с наивысшим рейтингом - нажмите
+                        "Рейтинг сваперов".
                     </p>
                 </div>
             </div>

@@ -12,7 +12,7 @@ export default function Header() {
             <section className='header-description'>
                 <div className="container">
                     <div className='about flex'>
-                        <h2 className='about-title'>Что такое Swapper?</h2>
+                        <h2 className='header-about-title'>Что такое Swapper?</h2>
                         <p className='about-description'>
                             Swapper - это сервис для поиска и осуществления взаимовыгодных отношений
                             между людьми. Мы предоставляем

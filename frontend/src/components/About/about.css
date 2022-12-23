@@ -1,3 +1,7 @@
+.about-section {
+    margin-bottom: 100px;
+}
+
 .about-wrapper {
     flex-direction: column;
     align-items: center;
@@ -9,11 +13,14 @@
     color: black;
 }
 
+.about-description-img {
+    width: 570px;
+    margin-right: 60px;
+}
+
 .about-description-text {
     font-size: 20px;
     font-weight: normal;
-}
-
-.about-description-img {
-    width: 100px;
+    max-width: 570;
+    line-height: 1.5;
 }

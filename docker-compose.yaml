@@ -3,5 +3,7 @@ version: "3"
 services:
     nginx:
         build: ./nginx
+        volumes:
+            - ./nginx/images:/usr/share/nginx/html/images
         ports:
             - 80:80

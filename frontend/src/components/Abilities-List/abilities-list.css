@@ -1,0 +1,30 @@
+.abilities-list {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.ability {
+    justify-content: flex-start;
+    align-items: center;
+    max-width: 900px;
+    margin-bottom: 100px;
+    margin-left: 100px;
+}
+
+.ability:nth-child(2n) {
+    align-self: flex-end;
+    margin-right: 100px;
+}
+
+.ability-title, .ability-desc {
+    color: black;
+    font-size: 20px;
+    line-height: 1.5;
+    font-style: italic;
+}
+
+.ability-img {
+    max-width: 170px;
+    border-radius: 20px;
+    margin-right: 40px;
+}
