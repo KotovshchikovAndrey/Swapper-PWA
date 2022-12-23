@@ -23,9 +23,41 @@ li {
     text-align: center;
     margin-bottom: 100px;
     font-size: 25px;
-    padding: 20px;
+    padding: 25px;
     color: black;
-    background-color: rgba(245, 242, 242, 0.9);
+    text-indent: 20;
+    background: linear-gradient(to right, rgb(0, 255, 106), rgb(0, 217, 255), rgb(72, 249, 178), rgb(0, 234, 255), cyan, rgb(19, 255, 184));
+    background-size: 400% 400%;
+    -webkit-animation: rainbow 20s ease infinite;
+    animation: rainbow 20s ease infinite;
+}
+
+@-webkit-keyframes rainbow {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@keyframes rainbow {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
 }
 
 .flex {
