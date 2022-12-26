@@ -1,13 +1,15 @@
 import React from 'react'
-import './header.css'
-import NavBar from '../NavBar/navbar'
+import './Header.css'
+import NavBar from './NavBar/Navbar'
 
 
 export default function Header() {
     return (
-        <section className='header-section'>
+        <section className='section header-section'>
             <header className='header'>
-                <NavBar />
+                <div className="contauner">
+                    <NavBar />
+                </div>
             </header>
             <section className='header-description'>
                 <div className="container">

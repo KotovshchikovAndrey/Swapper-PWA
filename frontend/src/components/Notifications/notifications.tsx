@@ -1,9 +1,9 @@
 import React from "react"
-import './notifications.css'
+import './Notifications.css'
 
 export default function Notifications() {
     return (
-        <section className="notifications-section">
+        <section className="section">
             <h2 className="section-title notifications-section-title">Email Уведомления</h2>
             <div className="flex notifications-conteiner container">
                 <div className="notify-wrapper">

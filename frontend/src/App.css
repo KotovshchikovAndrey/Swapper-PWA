@@ -69,3 +69,7 @@ li {
     width: 100%;
     max-width: 1200px;
 }
+
+.section {
+    margin-bottom: 100px;
+}
