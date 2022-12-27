@@ -1,6 +1,8 @@
 import React from 'react'
 import './Header.css'
+
 import NavBar from './NavBar/Navbar'
+import { headerDescription } from '../../data/static'
 
 
 export default function Header() {
@@ -15,11 +17,7 @@ export default function Header() {
                 <div className="container">
                     <div className='about flex'>
                         <h2 className='header-about-title'>Что такое Swapper?</h2>
-                        <p className='about-description'>
-                            Swapper - это сервис для поиска и осуществления взаимовыгодных отношений
-                            между людьми. Мы предоставляем
-                            удобную площадку для обмена, поиска и предоставления улуг.
-                        </p>
+                        <p className='about-description'>{headerDescription}</p>
                     </div>
                 </div>
             </section>

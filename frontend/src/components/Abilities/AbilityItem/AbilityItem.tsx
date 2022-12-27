@@ -1,11 +1,6 @@
 import React from "react"
 import './AbilityItem.css'
-
-
-interface AbilityItemProps {
-    imageUrl: string,
-    abilityDescription: string
-}
+import { AbilityItemProps } from "../propsInterfaces"
 
 
 export default function AbilityItem(props: AbilityItemProps) {

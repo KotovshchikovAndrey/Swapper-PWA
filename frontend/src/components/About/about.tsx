@@ -1,6 +1,8 @@
 import React from 'react'
 import './About.css'
 
+import { aboutDescription } from '../../data/static'
+
 
 export default function About() {
     return (
@@ -11,14 +13,7 @@ export default function About() {
             <div className="container flex about-wrapper">
                 <div className="flex about-description-wrapper">
                     <img src="http://localhost/images/doc.png" alt="doc" className="about-description-img" />
-                    <p className="about-description-text">
-                        Если вы ищите людей для выгодных барторных отношений,
-                        то Swapper - ваш выбор. Чтобы найти свапера - нажмите
-                        "Найти свапера". Для просмотра самых выгодных предложений
-                        за сегодняшний день - перейдите в "Свапы дня". Хотите получить
-                        наилучший опыт сотрудничество с людьми с наивысшим рейтингом - нажмите
-                        "Рейтинг сваперов".
-                    </p>
+                    <p className="about-description-text">{aboutDescription}</p>
                 </div>
             </div>
         </section>
