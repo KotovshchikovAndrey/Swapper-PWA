@@ -10,6 +10,7 @@ export default function AbilitiesList(props: AbilitiesListProps) {
         <div className="container">
             <ul className="flex abilities-list">
                 {props.abilities.map((ability) => <AbilityItem
+                    key={ability.key}
                     imageUrl={ability.imageUrl}
                     abilityDescription={ability.abilityDescription}
                 />)}

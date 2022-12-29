@@ -1,5 +1,6 @@
 export interface AbilityItemProps {
-    imageUrl: string,
+    key: number
+    imageUrl: string
     abilityDescription: string
 }
 
