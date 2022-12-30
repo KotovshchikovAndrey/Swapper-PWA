@@ -1,0 +1,46 @@
+.auth_section {
+    font-family: 'Inter';
+    margin-bottom: 200px;
+}
+
+.auth_title,
+.auth_text {
+    color: black;
+    text-align: center;
+}
+
+.auth_title {
+    font-weight: 700;
+    line-height: 24px;
+    font-size: 35px;
+    padding-top: 200px;
+    margin-bottom: 30px;
+}
+
+.auth_text {
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 2;
+    margin-bottom: 70px;
+}
+
+.auth_form {
+    justify-content: center;
+    align-items: center;
+}
+
+.auth_label {
+    color: #0047FF;
+    font-size: 20px;
+    margin-right: 30px;
+}
+
+.auth_input {
+    border: none;
+    border-bottom: 2px solid black;
+    width: 350px;
+    padding: 0 10px;
+    outline: none;
+    font-size: 18px;
+    text-align: center;
+}
