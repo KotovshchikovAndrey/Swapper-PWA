@@ -16,6 +16,7 @@
 
 .header-auth-link {
     font-weight: lighter;
+    text-decoration: none;
 }
 
 .header-auth-link:hover {

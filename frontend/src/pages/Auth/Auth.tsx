@@ -8,7 +8,7 @@ import Footer from "../../components/Footer/Footer"
 
 export default function Auth() {
     return (
-        <>
+        <React.Fragment>
             <section className={`${styles.auth_section}`}>
                 <div className="container">
                     <h2 className={`${styles.auth_title}`}>
@@ -28,6 +28,6 @@ export default function Auth() {
                 </div>
             </section>
             <Footer />
-        </>
+        </React.Fragment>
     )
 }

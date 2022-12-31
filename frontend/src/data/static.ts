@@ -1,3 +1,15 @@
+export const navList = [
+    "Найти Сваппера",
+    "Рейтинг Свапперов",
+    "Сваппы Дня"
+]
+
+export const contactsList = [
+    "Автор: Котовщиков Андрей",
+    "Email: ykt_andrey@mail.ru",
+    "Телефон: +79142230797"
+]
+
 export const abilities = [
     {
         key: 1,

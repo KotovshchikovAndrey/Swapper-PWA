@@ -1,8 +1,9 @@
 import React from "react"
+import { Link } from "react-router-dom"
 import "./Header.css"
 
-import NavBar from "./NavBar/Navbar"
-import { headerDescription } from "../../data/static"
+import NavBar from "../Navbar/Navbar"
+import { navList, headerDescription } from "../../data/static"
 
 
 export default function Header() {
@@ -10,8 +11,8 @@ export default function Header() {
         <section className="section header-section">
             <header className="header flex">
                 <h2>Swapper-Logo</h2>
-                <NavBar />
-                <p className="header-auth-link">Регистрация / Авторизация</p>
+                <NavBar navList={navList} />
+                <Link to="/auth" className="header-auth-link">Регистрация / Авторизация</Link>
             </header>
             <section className="header-description">
                 <div className="container">
