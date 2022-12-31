@@ -2,7 +2,7 @@ import React from 'react'
 import './Footer.css'
 
 import Navbar from '../Navbar/Navbar'
-import { navList, contactsList } from '../../data/static'
+import { navList, contactsList } from '../../../data/static'
 
 
 export default function Footer() {

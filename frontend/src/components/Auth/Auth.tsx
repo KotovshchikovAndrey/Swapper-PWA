@@ -1,9 +1,8 @@
 import React from "react"
-
 // @ts-ignore 
 import styles from "./Auth.module.css"
 
-import Footer from "../../components/Footer/Footer"
+import Footer from "../UI/Footer/Footer"
 
 
 export default function Auth() {

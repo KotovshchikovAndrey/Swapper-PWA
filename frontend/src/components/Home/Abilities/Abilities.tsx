@@ -2,7 +2,7 @@ import React from "react"
 import './Abilities.css'
 
 import AbilitiesList from "./AbilitiesList/AbilitiesList"
-import { abilities } from "../../data/static"
+import { abilities } from "../../../data/static"
 
 
 export default function Abilities() {

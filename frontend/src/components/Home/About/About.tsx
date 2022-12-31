@@ -1,7 +1,7 @@
 import React from 'react'
 import './About.css'
 
-import { aboutDescription } from '../../data/static'
+import { aboutDescription } from '../../../data/static'
 
 
 export default function About() {
