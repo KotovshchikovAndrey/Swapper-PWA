@@ -2,6 +2,7 @@ import React from "react"
 // @ts-ignore 
 import styles from "./Auth.module.css"
 
+import AuthForm from "./AuthForm/AuthForm"
 import Footer from "../UI/Footer/Footer"
 
 
@@ -17,13 +18,7 @@ export default function Auth() {
                         Чтобы начать пользоваться приложением <br />
                         вам необходимо зарегистрироваться
                     </p>
-                    <form className={`flex ${styles.auth_form}`}>
-                        <label className={`${styles.auth_label}`}>Введите ваше имя</label>
-                        <input
-                            className={`${styles.auth_input}`}
-                            type="text"
-                        />
-                    </form>
+                    <AuthForm />
                 </div>
             </section>
             <Footer />
