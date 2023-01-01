@@ -7,7 +7,8 @@ import { AuthFormData, AuthInputProps } from "../../authTypes"
 
 export default function AuthInput(props: AuthInputProps) {
     let currentInputText
-    switch (props.currentInputName) {
+    const currentInputName = props.currentInputName
+    switch (currentInputName) {
         case "surname":
             currentInputText = "Введите вашу фамилия"
             break
@@ -23,7 +24,11 @@ export default function AuthInput(props: AuthInputProps) {
 
     // need refactor key generation
     return (
-        <div key={Math.random()} className={`flex ${styles.auth_wrapper} ${styles.fade}`}>
+        <div
+            key={Math.random()}
+            className={`flex ${styles.auth_wrapper} ${styles.fade} 
+            ${currentInputName === "name" && styles.fade_delay}`}
+        >
             <label className={`${styles.auth_label}`}>{currentInputText}</label>
             <input
                 className={`${styles.auth_input}`}

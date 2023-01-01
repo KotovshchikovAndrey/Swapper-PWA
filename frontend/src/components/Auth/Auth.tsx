@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "react-router-dom"
 // @ts-ignore 
 import styles from "./Auth.module.css"
 
@@ -10,6 +11,16 @@ export default function Auth() {
     return (
         <React.Fragment>
             <section className={`${styles.auth_section}`}>
+                <Link to="/" style={{
+                    color: "black",
+                    display: "block",
+                    padding: "10px 0 0 20px",
+                    textDecoration: "none",
+                    font: "inherit",
+                    fontSize: 20
+                }}>
+                    Главная
+                </Link>
                 <div className="container">
                     <h2 className={`${styles.auth_title}`}>
                         Добро пожаловать в Swapper!

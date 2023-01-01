@@ -50,7 +50,7 @@ export default function AuthForm() {
     return (
         <form className={`flex ${styles.auth_form}`}>
             <AuthInput currentInputName={currentInputName} inputRef={currentInputRef} />
-            <AuthButton clickButtonHandler={buttonClickHandler}>Далее</AuthButton>
+            <AuthButton onClickHandler={buttonClickHandler}>Далее</AuthButton>
         </form >
     )
 }

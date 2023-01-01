@@ -1,6 +1,7 @@
 .auth_wrapper {
     justify-content: center;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 .auth_label {
@@ -19,8 +20,15 @@
     text-align: center;
 }
 
+.fade_delay {
+    opacity: 0;
+    animation-delay: 2s !important;
+    animation-duration: 2s !important;
+}
+
 .fade {
-    animation: fade-in 0.5s ease-in-out;
+    animation: fade-in 1.2s ease-in-out;
+    animation-fill-mode: forwards;
 }
 
 @keyframes fade-in {
