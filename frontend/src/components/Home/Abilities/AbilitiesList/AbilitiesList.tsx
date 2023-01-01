@@ -2,7 +2,7 @@ import React from "react"
 import './AbilitiesList.css'
 
 import AbilityItem from "../AbilityItem/AbilityItem"
-import { AbilitiesListProps } from "../propsInterfaces"
+import { AbilitiesListProps } from "../propsTypes"
 
 
 export default function AbilitiesList(props: AbilitiesListProps) {

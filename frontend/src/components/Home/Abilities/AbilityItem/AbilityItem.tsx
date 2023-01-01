@@ -1,6 +1,6 @@
 import React from "react"
 import './AbilityItem.css'
-import { AbilityItemProps } from "../propsInterfaces"
+import { AbilityItemProps } from "../propsTypes"
 
 
 export default function AbilityItem(props: AbilityItemProps) {
