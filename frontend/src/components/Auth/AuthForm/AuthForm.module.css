@@ -12,10 +12,6 @@
     align-items: center;
 }
 
-.auth_wrapper:not(:last-child) {
-    margin-bottom: 50px;
-}
-
 .auth_label {
     color: #0047FF;
     font-size: 20px;
@@ -30,4 +26,20 @@
     outline: none;
     font-size: 20px;
     text-align: center;
+}
+
+.fade {
+    animation: fade-in 0.5s ease-in-out;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0%);
+    }
 }
