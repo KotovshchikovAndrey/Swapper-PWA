@@ -2,7 +2,12 @@ import React, { useRef } from "react"
 // @ts-ignore 
 import styles from './AuthInput.module.css'
 
-import { AuthFormData, AuthInputProps } from "../../authTypes"
+import { AuthFormData } from "../../../../store/reducers/auth"
+
+interface AuthInputProps {
+    currentInputName: keyof AuthFormData
+    inputRef: React.RefObject<HTMLInputElement>
+}
 
 
 export default function AuthInput(props: AuthInputProps) {

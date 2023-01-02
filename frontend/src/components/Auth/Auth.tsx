@@ -1,5 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
+import { useTypedSelector } from "../../hooks/redux"
 // @ts-ignore 
 import styles from "./Auth.module.css"
 
@@ -8,6 +9,8 @@ import Footer from "../UI/Footer/Footer"
 
 
 export default function Auth() {
+    const authFormData = useTypedSelector((state) => state.auth.data)
+
     return (
         <React.Fragment>
             <section className={`${styles.auth_section}`}>

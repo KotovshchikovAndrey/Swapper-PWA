@@ -1,23 +1,22 @@
 import React, { useRef, useState } from "react"
+import { useTypedDispatch, useTypedSelector } from "../../../hooks/redux"
+import { setAuthData } from "../../../store/reducers/auth"
 // @ts-ignore 
 import styles from './AuthForm.module.css'
 
 import AuthButton from "../AuthButton/AuthButton"
 import AuthInput from "./AuthInput/AuthInput"
 
-import { AuthFormData } from "../authTypes"
+import { AuthFormData } from "../../../store/reducers/auth"
 
 
 export default function AuthForm() {
     const currentInputRef = useRef<HTMLInputElement>(null)
 
+    const authFormData = useTypedSelector((state) => state.auth.data)
+    const dispatch = useTypedDispatch()
+
     const [errorMessages, setErrorMessages] = useState<string[]>()
-    const [authFormData, setAuthFormData] = useState<AuthFormData>({
-        name: '',
-        surname: '',
-        email: '',
-        phone: ''
-    })
     const [inputNamesQueue, setInputNamesQueue] = useState<Array<keyof AuthFormData>>([
         "name",
         "surname",
@@ -35,12 +34,10 @@ export default function AuthForm() {
         }
 
         const currentInputValue = currentInputRef.current.value
-        setAuthFormData((prevAuthData) => {
-            return {
-                ...prevAuthData,
-                [currentInputName]: currentInputValue
-            }
-        })
+        dispatch(setAuthData({
+            key: currentInputName,
+            value: currentInputValue
+        }))
 
         setInputNamesQueue((prevInputQueue) => {
             return prevInputQueue.filter((inputName) => inputName !== currentInputName)
