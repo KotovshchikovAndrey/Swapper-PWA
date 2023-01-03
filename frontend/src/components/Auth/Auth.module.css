@@ -16,8 +16,6 @@
     font-size: 35px;
     padding-top: 200px;
     margin-bottom: 30px;
-    animation: appearance 1s linear;
-    animation-fill-mode: forwards;
 }
 
 .auth_text {
@@ -25,22 +23,13 @@
     font-weight: 300;
     line-height: 2;
     margin-bottom: 70px;
-    opacity: 0;
-    animation: appearance 1.5s linear;
-    animation-delay: 1s;
-    animation-fill-mode: forwards;
 }
 
-@keyframes appearance {
-    0% {
-        opacity: 0;
-    }
+.auth_data_list {
+    flex-direction: column;
+    align-items: flex-start;
+}
 
-    50% {
-        opacity: 0.35;
-    }
-
-    100% {
-        opacity: 1;
-    }
+.auth_data_item {
+    margin-bottom: 10px;
 }

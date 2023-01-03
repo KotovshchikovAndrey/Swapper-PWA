@@ -19,26 +19,3 @@
     font-size: 20px;
     text-align: center;
 }
-
-.fade_delay {
-    opacity: 0;
-    animation-delay: 2s !important;
-    animation-duration: 2s !important;
-}
-
-.fade {
-    animation: fade-in 1.2s ease-in-out;
-    animation-fill-mode: forwards;
-}
-
-@keyframes fade-in {
-    0% {
-        opacity: 0;
-        transform: translateX(100%);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateX(0%);
-    }
-}

@@ -9,8 +9,11 @@ import AuthInput from "./AuthInput/AuthInput"
 
 import { AuthFormData } from "../../../store/reducers/auth"
 
+// let render = 0
+
 
 export default function AuthForm() {
+    // console.warn(`render AuthForm is ${++render}`)
     const currentInputRef = useRef<HTMLInputElement>(null)
 
     const authFormData = useTypedSelector((state) => state.auth.data)

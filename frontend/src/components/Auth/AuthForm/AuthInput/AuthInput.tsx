@@ -1,6 +1,9 @@
 import React, { useRef } from "react"
+
 // @ts-ignore 
 import styles from './AuthInput.module.css'
+// @ts-ignore 
+import animations from '../../../../Animations.module.css'
 
 import { AuthFormData } from "../../../../store/reducers/auth"
 
@@ -9,8 +12,12 @@ interface AuthInputProps {
     inputRef: React.RefObject<HTMLInputElement>
 }
 
+// let render = 0
+
 
 export default function AuthInput(props: AuthInputProps) {
+    // console.warn(`render AuthInput is ${++render}`)
+
     let currentInputText
     const currentInputName = props.currentInputName
     switch (currentInputName) {
@@ -31,8 +38,8 @@ export default function AuthInput(props: AuthInputProps) {
     return (
         <div
             key={Math.random()}
-            className={`flex ${styles.auth_wrapper} ${styles.fade} 
-            ${currentInputName === "name" && styles.fade_delay}`}
+            className={`flex ${styles.auth_wrapper} ${animations.fade} 
+            ${currentInputName === "name" && animations.fade_delay}`}
         >
             <label className={`${styles.auth_label}`}>{currentInputText}</label>
             <input
