@@ -2,3 +2,5 @@
 **/.vscode/
 **/assets/
 frontend/package-lock.json
+
+**/__pycache__/
