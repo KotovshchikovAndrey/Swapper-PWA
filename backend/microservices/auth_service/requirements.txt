@@ -1,4 +1,8 @@
 isort
 black
 fastapi
+asyncpg
+psycopg2
+alembic
+ormar
 uvicorn

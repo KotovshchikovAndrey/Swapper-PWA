@@ -1,11 +1,23 @@
 import typing as tp
 
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
+from database.connections import *
+from database.models import *
 from errors.api_errors import ApiError
 
 app = FastAPI()
+
+
+@app.on_event("startup")
+async def startup() -> None:
+    await postgresql_connection.connect()
+
+
+@app.on_event("shutdown")
+async def shutdown() -> None:
+    await postgresql_connection.disconnect()
 
 
 @app.middleware("http")
