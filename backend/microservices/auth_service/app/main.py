@@ -3,11 +3,13 @@ import typing as tp
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
+from api.api_v1.routes import router as api_v1_router
 from database.connections import *
 from database.models import *
 from errors.api_errors import ApiError
 
 app = FastAPI()
+app.include_router(api_v1_router, prefix="/api/v1")
 
 
 @app.on_event("startup")

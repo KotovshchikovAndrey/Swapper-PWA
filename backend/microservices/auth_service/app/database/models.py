@@ -19,7 +19,8 @@ class User(ormar.Model):
     surname = ormar.String(max_length=100, nullable=False)
     patronymic = ormar.String(max_length=100, nullable=True)
     email = ormar.String(max_length=100, nullable=False)
-    phone = ormar.String(max_length=18)
+    phone = ormar.String(max_length=18, nullable=True)
+    is_active = ormar.Boolean(default=False, index=True)
 
 
 class Token(ormar.Model):
