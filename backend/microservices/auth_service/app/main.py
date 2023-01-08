@@ -1,14 +1,13 @@
-import typing as tp
-
-from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI
 
 from api.api_v1.routes import router as api_v1_router
 from database.connections import *
 from database.models import *
-from errors.api_errors import ApiError
+from errors.handler import errors_handler
 
 app = FastAPI()
+
+app.middleware("http")(errors_handler)
 app.include_router(api_v1_router, prefix="/api/v1")
 
 
@@ -20,21 +19,3 @@ async def startup() -> None:
 @app.on_event("shutdown")
 async def shutdown() -> None:
     await postgresql_connection.disconnect()
-
-
-@app.middleware("http")
-async def error_handler(request: Request, call_next: tp.Callable):
-    try:
-        return await call_next(request)
-    except Exception as exc:
-        if isinstance(exc, ApiError):
-            return JSONResponse(
-                status_code=exc.status,
-                content={"message": exc.message, "details": exc.details},
-            )
-
-        print(exc)
-        return JSONResponse(
-            status_code=500,
-            content={"message": "Непредвиденная ошибка сервера", "details": []},
-        )
