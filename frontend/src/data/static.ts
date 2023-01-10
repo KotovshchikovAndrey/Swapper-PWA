@@ -1,3 +1,5 @@
+import { AuthFormData } from "../store/reducers/auth"
+
 export const navList = [
     "Найти Сваппера",
     "Рейтинг Свапперов",
@@ -38,3 +40,10 @@ export const aboutDescription = `Если вы ищите людей для вы
                                 за сегодняшний день - перейдите в "Свапы дня". Хотите получить
                                 наилучший опыт сотрудничество с людьми с наивысшим рейтингом - нажмите
                                 "Рейтинг сваперов`
+
+export const authInputsText: AuthFormData = {
+    name: "Введите ваше имя",
+    surname: "Введите вашу фамилия",
+    email: "Введите ваш email",
+    phone: "Введите ваш номер телефона"
+}

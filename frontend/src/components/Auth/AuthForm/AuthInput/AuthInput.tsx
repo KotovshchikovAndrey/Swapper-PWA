@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React from "react"
 
 // @ts-ignore 
 import styles from './AuthInput.module.css'
@@ -6,6 +6,7 @@ import styles from './AuthInput.module.css'
 import animations from '../../../../Animations.module.css'
 
 import { AuthFormData } from "../../../../store/reducers/auth"
+import { authInputsText } from "../../../../data/static"
 
 interface AuthInputProps {
     currentInputName: keyof AuthFormData
@@ -17,27 +18,11 @@ interface AuthInputProps {
 
 export default function AuthInput(props: AuthInputProps) {
     // console.warn(`render AuthInput is ${++render}`)
-
-    let currentInputText
     const currentInputName = props.currentInputName
-    switch (currentInputName) {
-        case "surname":
-            currentInputText = "Введите вашу фамилия"
-            break
-        case "email":
-            currentInputText = "Введите ваш email"
-            break
-        // case "phone":
-        //     currentInputText = "Введите ваш номер телефона"
-        //     break
-        default:
-            currentInputText = "Введите ваше имя"
-    }
+    const currentInputText = authInputsText[currentInputName]
 
-    // need refactor key generation
     return (
         <div
-            key={Math.random()}
             className={`flex ${styles.auth_wrapper} ${animations.fade} 
             ${currentInputName === "name" && animations.fade_delay}`}
         >

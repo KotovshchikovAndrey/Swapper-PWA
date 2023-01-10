@@ -1,6 +1,8 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Link } from "react-router-dom"
-import { useTypedSelector } from "../../hooks/redux"
+
+import { useTypedSelector, useTypedDispatch } from "../../hooks/redux"
+import { resetAuthData } from "../../store/reducers/auth"
 
 // @ts-ignore 
 import styles from "./Auth.module.css"
@@ -16,6 +18,12 @@ import Footer from "../UI/Footer/Footer"
 export default function Auth() {
     // console.warn(`render Auth is ${++render}`)
     const authFormData = useTypedSelector((state) => state.auth.data)
+    const dispatch = useTypedDispatch()
+
+    // Сбрасывает данные формы
+    useEffect(() => {
+        dispatch(resetAuthData())
+    }, [])
 
     return (
         <React.Fragment>

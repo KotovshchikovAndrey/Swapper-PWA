@@ -15,24 +15,30 @@ interface Action {
     type: string
 }
 
+const initialAuthData: AuthFormData = {
+    name: '',
+    surname: '',
+    email: '',
+    phone: ''
+}
+
 export const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        data: {
-            name: '',
-            surname: '',
-            email: '',
-            phone: ''
-        },
+        data: initialAuthData
     },
     reducers: {
         setAuthData: (state, action: Action) => {
             const { key, value } = action.payload
             state.data[key] = value
+        },
+
+        resetAuthData: (state) => {
+            state.data = initialAuthData
         }
     },
 })
 
-export const { setAuthData } = authSlice.actions
+export const { setAuthData, resetAuthData } = authSlice.actions
 
 export default authSlice.reducer

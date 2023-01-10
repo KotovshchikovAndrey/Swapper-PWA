@@ -1,8 +1,11 @@
 import React, { useRef, useState } from "react"
-import { useTypedDispatch, useTypedSelector } from "../../../hooks/redux"
-import { setAuthData } from "../../../store/reducers/auth"
+
 // @ts-ignore 
 import styles from './AuthForm.module.css'
+
+import { useTypedDispatch, useTypedSelector } from "../../../hooks/redux"
+import { useKey } from "../../../hooks/keys"
+import { setAuthData } from "../../../store/reducers/auth"
 
 import AuthButton from "../AuthButton/AuthButton"
 import AuthInput from "./AuthInput/AuthInput"
@@ -14,10 +17,10 @@ import { AuthFormData } from "../../../store/reducers/auth"
 
 export default function AuthForm() {
     // console.warn(`render AuthForm is ${++render}`)
-    const currentInputRef = useRef<HTMLInputElement>(null)
-
-    const authFormData = useTypedSelector((state) => state.auth.data)
     const dispatch = useTypedDispatch()
+    const [key, incrementKey] = useKey(0)
+
+    const currentInputRef = useRef<HTMLInputElement>(null)
 
     const [errorMessages, setErrorMessages] = useState<string[]>()
     const [inputNamesQueue, setInputNamesQueue] = useState<Array<keyof AuthFormData>>([
@@ -45,11 +48,13 @@ export default function AuthForm() {
         setInputNamesQueue((prevInputQueue) => {
             return prevInputQueue.filter((inputName) => inputName !== currentInputName)
         })
+
+        incrementKey()
     }
 
     return (
         <form className={`flex ${styles.auth_form}`}>
-            <AuthInput currentInputName={currentInputName} inputRef={currentInputRef} />
+            <AuthInput key={key} currentInputName={currentInputName} inputRef={currentInputRef} />
             <AuthButton onClickHandler={buttonClickHandler}>Далее</AuthButton>
         </form >
     )
