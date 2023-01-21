@@ -1,8 +1,9 @@
 import typing as tp
 
-from fastapi import APIRouter, Request, Depends
-from api.dependencies.middlewares import UserRegistrationMiddleware
-from dto.user import UserRegisterDTO
+from fastapi import APIRouter, Depends, Request
+
+from api.dependencies.middlewares import UserMiddleware
+from dto.user_dto import UserRegisterDTO
 
 router = APIRouter(prefix="/auth")
 
@@ -10,10 +11,9 @@ router = APIRouter(prefix="/auth")
 @router.post(
     "/registration",
     name="registration",
-    dependencies=[Depends(UserRegistrationMiddleware())],
+    dependencies=[Depends(UserMiddleware.validate_registration_request)],
 )
 async def registration(user: UserRegisterDTO):
-    print(user)
     return user
 
 

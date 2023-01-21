@@ -1,8 +1,10 @@
 import typing as tp
 
 from fastapi.requests import Request
-from api.dependencies.requests_validators.base import RequestValidator
-from dto.user import UserRegisterDTO
+
+from api.dependencies.requests_validators.base_request_validator import \
+    RequestValidator
+from dto.user_dto import UserRegisterDTO
 from errors.api_errors import ApiError
 
 __all__ = ("UserRequestValidatorFactory",)

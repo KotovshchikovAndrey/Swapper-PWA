@@ -1,7 +1,7 @@
 import typing as tp
 
-from database.repositories.user import UserRepository
-from dto.user import *
+from database.repositories.user_repositories import UserRepository
+from dto.user_dto import *
 
 
 class UserService:

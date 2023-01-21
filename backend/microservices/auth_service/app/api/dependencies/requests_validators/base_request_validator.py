@@ -1,7 +1,8 @@
 import typing as tp
+from abc import ABC, abstractmethod
 
 from fastapi.requests import Request
-from abc import ABC, abstractmethod
+
 from errors.api_errors import ApiError
 
 __all__ = ("RequestValidator",)

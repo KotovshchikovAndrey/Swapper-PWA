@@ -2,7 +2,7 @@ import typing as tp
 from abc import ABC, abstractmethod
 
 from database import models
-from database.repositories.base import BaseSqlRepository
+from database.repositories.base_repository import BaseSqlRepository
 
 
 class UserRepository(ABC):
