@@ -18,7 +18,8 @@ class User(ormar.Model):
     name = ormar.String(max_length=100, nullable=False)
     surname = ormar.String(max_length=100, nullable=False)
     patronymic = ormar.String(max_length=100, nullable=True)
-    email = ormar.String(max_length=100, nullable=False)
+    email = ormar.String(max_length=100, unique=True, nullable=False)
+    age = ormar.Integer(maximum=100, nullable=False)
     phone = ormar.String(max_length=18, nullable=True)
     is_active = ormar.Boolean(default=False, index=True)
 

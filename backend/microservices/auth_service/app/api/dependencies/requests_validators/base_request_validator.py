@@ -11,14 +11,15 @@ __all__ = ("RequestValidator",)
 class RequestValidator(ABC):
     _errors: tp.List[str]
 
-    def __init__(self) -> None:
+    def __init__(self, fields: tp.Tuple[str]) -> None:
+        self._fields = fields
         self._errors = []
 
     @abstractmethod
     async def validate(self, request: Request):
         pass
 
-    def _validate_id(self, id_param: str) -> None:
+    def validate_id(self, id_param: str) -> None:
         if id_param is None:
             self._errors.append("параметр id не был передан")
             return

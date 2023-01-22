@@ -18,9 +18,10 @@ class UserRegisterDTO:
     name: str
     surname: str
     email: str
+    age: int
+    password: str
     patronymic: tp.Optional[str] = None
     phone: tp.Optional[int] = None
-    is_active: bool = False
 
 
 @dataclasses.dataclass

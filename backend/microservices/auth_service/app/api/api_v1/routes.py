@@ -3,6 +3,8 @@ import typing as tp
 from fastapi import APIRouter, Depends, Request
 
 from api.dependencies.middlewares import UserMiddleware
+from database.repositories.user_repositories import UserPostgreSQLRepository
+from domain.services import UserService
 from dto.user_dto import UserRegisterDTO
 
 router = APIRouter(prefix="/auth")
@@ -14,6 +16,8 @@ router = APIRouter(prefix="/auth")
     dependencies=[Depends(UserMiddleware.validate_registration_request)],
 )
 async def registration(user: UserRegisterDTO):
+    user_service = UserService(repository=UserPostgreSQLRepository())
+    await user_service.register(user)
     return user
 
 

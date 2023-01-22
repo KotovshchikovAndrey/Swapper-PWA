@@ -1,9 +1,12 @@
+from dotenv import load_dotenv
 from fastapi import FastAPI
 
 from api.api_v1.routes import router as api_v1_router
 from database.connections import *
 from database.models import *
 from errors.handler import errors_handler
+
+load_dotenv()
 
 app = FastAPI()
 
