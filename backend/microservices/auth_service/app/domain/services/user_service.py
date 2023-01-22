@@ -23,7 +23,7 @@ class UserService:
             raise ApiError.bad_request("Пользователь с таким email уже существует!")
 
         password_hash = self.__get_password_hash(password=user.password)
-        created_user: User = await self.__repository.create(
+        created_user = await self.__repository.create(
             name=user.name,
             surname=user.surname,
             email=user.email,

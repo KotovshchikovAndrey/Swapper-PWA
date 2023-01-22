@@ -5,6 +5,7 @@ import typing as tp
 import jwt
 
 from config import AppConfig
+from database.entities import UserEntity
 from database.repositories import TokenRepository
 
 __all__ = ("TokenService",)
@@ -14,7 +15,9 @@ class TokenService:
     def __init__(self, repository: TokenRepository) -> None:
         self.__repository = repository
 
-    async def create_tokens_for_user(self, user, payload: dict) -> tp.Tuple[str, str]:
+    async def create_tokens_for_user(
+        self, user: UserEntity, payload: dict
+    ) -> tp.Tuple[str, str]:
         access_token = self.__generate_access_token(payload)
         access_part = self.__get_access_part(access_token)
         refresh_token = self.__generate_refresh_token(payload, access_part=access_part)

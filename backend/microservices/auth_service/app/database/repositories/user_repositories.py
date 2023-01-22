@@ -1,6 +1,7 @@
 import typing as tp
 from abc import ABC, abstractmethod
 
+from database.entities import UserEntity
 from database.models import User
 from database.repositories.base_repository import BaseSqlRepository
 
@@ -24,7 +25,7 @@ class UserRepository(ABC):
         password: str,
         patronymic: tp.Optional[str] = None,
         phone: tp.Optional[str] = None,
-    ):
+    ) -> UserEntity:
         pass
 
     # @abstractmethod

@@ -1,13 +1,14 @@
 import typing as tp
 from abc import ABC, abstractmethod
 
+from database.entities import TokenEntity, UserEntity
 from database.models import Token, User
 from database.repositories.base_repository import BaseSqlRepository
 
 
 class TokenRepository(ABC):
     @abstractmethod
-    async def create(self, user_instance, value: str):
+    async def create(self, user_instance: UserEntity, value: str) -> None:
         pass
 
     @abstractmethod

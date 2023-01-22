@@ -2,7 +2,9 @@ import typing as tp
 
 import ormar
 
+from database import entities
 from database.connections import postgresql_connection
+from utils.decorators.implementation import Implement
 
 
 class BaseMeta(ormar.ModelMeta):
@@ -10,6 +12,7 @@ class BaseMeta(ormar.ModelMeta):
     database = postgresql_connection.database
 
 
+@Implement(interface=entities.UserEntity)
 class User(ormar.Model):
     class Meta(BaseMeta):
         tablename = "user"
@@ -25,6 +28,7 @@ class User(ormar.Model):
     is_active = ormar.Boolean(default=False, index=True)
 
 
+@Implement(interface=entities.TokenEntity)
 class Token(ormar.Model):
     class Meta(BaseMeta):
         tablename = "token"
@@ -34,6 +38,7 @@ class Token(ormar.Model):
     value = ormar.String(max_length=255, unique=True, nullable=False)
 
 
+@Implement(interface=entities.CodeEntity)
 class Code(ormar.Model):
     class Meta(BaseMeta):
         tablename = "code"
