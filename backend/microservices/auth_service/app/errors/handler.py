@@ -4,6 +4,7 @@ from fastapi.requests import Request
 from fastapi.responses import JSONResponse
 
 from errors.api_errors import ApiError
+from errors.config_errors import ConfigError
 
 
 async def errors_handler(request: Request, call_next: tp.Callable):
@@ -14,6 +15,13 @@ async def errors_handler(request: Request, call_next: tp.Callable):
             return JSONResponse(
                 status_code=exc.status,
                 content={"message": exc.message, "details": exc.details},
+            )
+
+        if isinstance(exc, ConfigError):
+            print(exc.message)
+            return JSONResponse(
+                status_code=500,
+                content={"message": "Ошибка конфигурации сервера", "details": []},
             )
 
         print(exc)

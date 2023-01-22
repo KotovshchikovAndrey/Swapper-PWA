@@ -15,7 +15,16 @@ class UserRepository(ABC):
     #     pass
 
     @abstractmethod
-    async def create(self, name: str, surname: str, patronymic: str, email: str):
+    async def create(
+        self,
+        name: str,
+        surname: str,
+        email: str,
+        age: int,
+        password: str,
+        patronymic: tp.Optional[str] = None,
+        phone: tp.Optional[str] = None,
+    ):
         pass
 
     # @abstractmethod
@@ -36,10 +45,23 @@ class UserPostgreSQLRepository(BaseSqlRepository[tp.Type[User]], UserRepository)
         super().__init__(model=User)
 
     async def create(
-        self, name: str, surname: str, patronymic: str, email: str
+        self,
+        name: str,
+        surname: str,
+        email: str,
+        age: int,
+        password: str,
+        patronymic: tp.Optional[str] = None,
+        phone: tp.Optional[str] = None,
     ) -> User:
         created_user = await self._model.objects.create(
-            name=name, surname=surname, patronymic=patronymic, email=email
+            name=name,
+            surname=surname,
+            patronymic=patronymic,
+            email=email,
+            age=age,
+            phone=phone,
+            password=password,
         )
 
         return created_user

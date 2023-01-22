@@ -20,8 +20,11 @@ class TokenRepository(ABC):
 
 
 class TokenPostgreSQLRepository(BaseSqlRepository[tp.Type[Token]], TokenRepository):
-    async def create(self, user_instance: User, value: str):
-        pass
+    def __init__(self) -> None:
+        super().__init__(model=Token)
+
+    async def create(self, user_instance: User, value: str) -> None:
+        await self._model.objects.create(user=user_instance, value=value)
 
     async def update(self):
         pass
