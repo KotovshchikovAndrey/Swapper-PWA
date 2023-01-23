@@ -15,7 +15,7 @@ class TokenService:
     def __init__(self, repository: TokenRepository) -> None:
         self.__repository = repository
 
-    async def create_tokens_for_user(
+    async def create_token_pair(
         self, user: UserEntity, payload: dict
     ) -> tp.Tuple[str, str]:
         access_token = self.__generate_access_token(payload)

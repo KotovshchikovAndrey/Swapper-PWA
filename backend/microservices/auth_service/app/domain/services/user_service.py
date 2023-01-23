@@ -1,7 +1,7 @@
 import hashlib
 import typing as tp
 
-from database.models import User
+from database.entities import UserEntity
 from database.repositories import UserRepository
 from database.repositories.token_repositories import TokenPostgreSQLRepository
 from domain.services import TokenService
@@ -32,20 +32,52 @@ class UserService:
             phone=user.phone,
             password=password_hash,
         )
-        payload = {
-            "id": created_user.id,
-            "name": created_user.name,
-        }
 
-        token_service = TokenService(repository=TokenPostgreSQLRepository())
-        access_token, refresh_token = await token_service.create_tokens_for_user(
-            user=created_user, payload=payload
+        access_token, refresh_token = await self.__get_token_pair(
+            user=created_user,
+            payload={
+                "id": created_user.id,
+                "name": created_user.name,
+            },
         )
 
         return access_token, refresh_token
 
-    async def login(self, user: UserLoginDTO):
-        pass
+    async def login(self, user: UserLoginDTO) -> tp.Tuple[str, str]:
+        user = await self.authenticate(email=user.email, password=user.password)
+        if user is None:
+            raise ApiError.unauthorized(message="Неверный логин или пароль")
+
+        access_token, refresh_token = await self.__get_token_pair(
+            user=user,
+            payload={
+                "id": user.id,
+                "name": user.name,
+            },
+        )
+
+        return access_token, refresh_token
+
+    async def authenticate(
+        self, email: str, password: str
+    ) -> tp.Union[None, UserEntity]:
+        user = await self.__repository.find_by_email(email)
+        if user is not None:
+            password_hash = self.__get_password_hash(password)
+            if password_hash == user.password:
+                return user
+
+        return None
+
+    async def __get_token_pair(
+        self, user: UserEntity, payload: dict
+    ) -> tp.Tuple[str, str]:
+        token_service = TokenService(repository=TokenPostgreSQLRepository())
+        access_token, refresh_token = await token_service.create_token_pair(
+            user=user, payload=payload
+        )
+
+        return access_token, refresh_token
 
     def __get_password_hash(self, password: str):
         # Мб соль добавить

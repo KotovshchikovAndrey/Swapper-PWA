@@ -28,6 +28,10 @@ class UserRepository(ABC):
     ) -> UserEntity:
         pass
 
+    @abstractmethod
+    async def find_by_email(self, email: str) -> UserEntity:
+        pass
+
     # @abstractmethod
     # async def update(self):
     #     pass
@@ -66,6 +70,9 @@ class UserPostgreSQLRepository(BaseSqlRepository[tp.Type[User]], UserRepository)
         )
 
         return created_user
+
+    async def find_by_email(self, email: str) -> tp.Union[None, User]:
+        return await self._model.objects.get_or_none(email=email)
 
     async def email_exists(self, email: str) -> bool:
         return await self._model.objects.filter(email=email).exists()
