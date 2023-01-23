@@ -3,8 +3,8 @@ import typing as tp
 from fastapi.requests import Request
 from fastapi.responses import JSONResponse
 
-from errors.api_errors import ApiError
-from errors.config_errors import ConfigError
+from errors.api import ApiError
+from errors.config import ConfigError
 
 
 async def errors_handler(request: Request, call_next: tp.Callable):

@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 from database.entities import TokenEntity, UserEntity
 from database.models import Token, User
-from database.repositories.base_repository import BaseSqlRepository
+from database.repositories.base import BaseSqlRepository
 
 
 class TokenRepository(ABC):

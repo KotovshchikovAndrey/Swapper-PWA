@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 from fastapi.requests import Request
 
-from errors.api_errors import ApiError
+from errors.api import ApiError
 
 __all__ = ("RequestValidator",)
 

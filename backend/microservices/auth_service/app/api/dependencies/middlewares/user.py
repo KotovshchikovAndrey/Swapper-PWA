@@ -2,7 +2,7 @@ import typing as tp
 
 from fastapi.requests import Request
 
-from api.dependencies.requests_validators import UserRequestValidatorFactory
+from api.dependencies.request_validators import UserRequestValidatorFactory
 
 __all__ = ("UserMiddleware",)
 

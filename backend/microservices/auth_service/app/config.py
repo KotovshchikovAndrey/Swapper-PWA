@@ -1,7 +1,7 @@
 import os
 import typing as tp
 
-from errors.config_errors import ConfigError
+from errors.config import ConfigError
 
 
 class AppConfig:

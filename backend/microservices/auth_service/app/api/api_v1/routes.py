@@ -5,9 +5,9 @@ from fastapi.responses import JSONResponse
 
 from api.dependencies.middlewares import UserMiddleware
 from database.connections import postgresql_connection
-from database.repositories.user_repositories import UserPostgreSQLRepository
+from database.repositories.user import UserPostgreSQLRepository
 from domain.services import UserService
-from dto.user_dto import UserLoginDTO, UserRegisterDTO
+from dto.user import UserLoginDTO, UserRegisterDTO
 
 router = APIRouter(prefix="/auth")
 

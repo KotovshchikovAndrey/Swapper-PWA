@@ -4,10 +4,10 @@ from dataclasses import fields
 from fastapi.requests import Request
 from validate_email import validate_email
 
-from api.dependencies.requests_validators.base_request_validator import RequestValidator
+from api.dependencies.request_validators.base import RequestValidator
 from domain.mappers import UserMapper
-from dto.user_dto import UserLoginDTO, UserRegisterDTO
-from errors.api_errors import ApiError
+from dto.user import UserLoginDTO, UserRegisterDTO
+from errors.api import ApiError
 
 __all__ = ("UserRequestValidatorFactory",)
 

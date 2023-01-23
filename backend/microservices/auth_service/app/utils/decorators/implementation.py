@@ -1,7 +1,7 @@
 import typing as tp
 from abc import ABC
 
-from errors.implement_errors import ImplementError
+from errors.implement import ImplementError
 
 T = tp.TypeVar("T", bound=tp.Type)
 

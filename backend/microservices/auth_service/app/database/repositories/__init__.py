@@ -1,2 +1,2 @@
-from .token_repositories import TokenRepository
-from .user_repositories import UserRepository
+from .token import TokenRepository
+from .user import UserRepository

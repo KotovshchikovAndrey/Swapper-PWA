@@ -1,1 +1,1 @@
-from .user_mappers import UserMapper
+from .user import UserMapper

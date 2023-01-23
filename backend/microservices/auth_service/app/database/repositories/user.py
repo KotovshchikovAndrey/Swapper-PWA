@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 from database.entities import UserEntity
 from database.models import User
-from database.repositories.base_repository import BaseSqlRepository
+from database.repositories.base import BaseSqlRepository
 
 
 class UserRepository(ABC):

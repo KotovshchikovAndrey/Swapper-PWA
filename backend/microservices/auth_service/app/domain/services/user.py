@@ -3,10 +3,10 @@ import typing as tp
 
 from database.entities import UserEntity
 from database.repositories import UserRepository
-from database.repositories.token_repositories import TokenPostgreSQLRepository
+from database.repositories.token import TokenPostgreSQLRepository
 from domain.services import TokenService
-from dto.user_dto import *
-from errors.api_errors import ApiError
+from dto.user import *
+from errors.api import ApiError
 
 __all__ = ("UserService",)
 
