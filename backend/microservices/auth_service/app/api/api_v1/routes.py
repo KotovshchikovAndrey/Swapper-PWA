@@ -4,11 +4,9 @@ from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse
 
 from api.dependencies.middlewares import UserMiddleware
-from api.dependencies.auth_backend import JwtAuthBackend
 from database.connections import postgresql_connection
 from database.repositories.user import UserPostgreSQLRepository
-from database.repositories.token import TokenPostgreSQLRepository
-from domain.services import UserService, TokenService
+from domain.services import UserService
 from dto.user import UserLoginDTO, UserRegisterDTO
 
 router = APIRouter(prefix="/auth")
@@ -78,12 +76,8 @@ async def refresh(request: Request):
 @router.delete(
     "/logout",
     dependencies=[
-        Depends(
-            JwtAuthBackend(
-                service=TokenService(repository=TokenPostgreSQLRepository()),
-                check_refresh_token=True,
-            )
-        )
+        Depends(UserMiddleware.check_auth),
+        Depends(UserMiddleware.check_can_refresh),
     ],
 )
 async def logout(request: Request):
@@ -93,7 +87,10 @@ async def logout(request: Request):
         user_id=user_payload["id"], token=request.cookies["refresh_token"]
     )
 
-    return JSONResponse(status_code=200, content={"message": "Вы разлогинены!"})
+    response = JSONResponse(status_code=200, content={"message": "Вы разлогинены!"})
+    response.delete_cookie("refresh_token")
+
+    return response
 
 
 @router.get("/checkUserIsActive")

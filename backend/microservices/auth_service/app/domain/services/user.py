@@ -62,6 +62,12 @@ class UserService:
         token_service = TokenService(repository=TokenPostgreSQLRepository())
         await token_service.remove_token_from_db(user_id, token)
 
+    async def refresh_tokens(
+        self, access_token: str, refresh_token: str
+    ) -> tp.Tuple[str, str]:
+
+        pass
+
     async def authenticate(
         self, email: str, password: str
     ) -> tp.Union[None, UserEntity]:
