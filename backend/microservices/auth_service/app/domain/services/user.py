@@ -58,6 +58,10 @@ class UserService:
 
         return access_token, refresh_token
 
+    async def logout(self, user_id: int, token: str) -> None:
+        token_service = TokenService(repository=TokenPostgreSQLRepository())
+        await token_service.remove_token_from_db(user_id, token)
+
     async def authenticate(
         self, email: str, password: str
     ) -> tp.Union[None, UserEntity]:

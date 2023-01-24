@@ -16,7 +16,7 @@ class TokenRepository(ABC):
         pass
 
     @abstractmethod
-    async def delete(self):
+    async def delete(self, user_id: int, token: str) -> None:
         pass
 
 
@@ -30,5 +30,5 @@ class TokenPostgreSQLRepository(BaseSqlRepository[tp.Type[Token]], TokenReposito
     async def update(self):
         pass
 
-    async def delete(self):
-        pass
+    async def delete(self, user_id: int, token: str) -> None:
+        await self._model.objects.delete(user__id=user_id, value=token)
