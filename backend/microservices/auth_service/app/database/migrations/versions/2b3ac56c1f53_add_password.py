@@ -1,15 +1,15 @@
-"""Add password column in user table
+"""add password
 
-Revision ID: da3e617f4750
+Revision ID: 2b3ac56c1f53
 Revises: 28f6b0496853
-Create Date: 2023-01-22 16:33:31.909677
+Create Date: 2023-01-25 18:46:40.368694
 
 """
 import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = "da3e617f4750"
+revision = "2b3ac56c1f53"
 down_revision = "28f6b0496853"
 branch_labels = None
 depends_on = None

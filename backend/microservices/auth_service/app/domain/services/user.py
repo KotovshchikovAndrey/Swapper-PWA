@@ -58,6 +58,17 @@ class UserService:
 
         return access_token, refresh_token
 
+    async def authenticate(
+        self, email: str, password: str
+    ) -> tp.Union[None, UserEntity]:
+        user = await self.__repository.find_by_email(email)
+        if user is not None:
+            password_hash = self.__get_password_hash(password)
+            if password_hash == user.password:
+                return user
+
+        return None
+
     async def logout(self, user_id: int, token: str) -> None:
         token_service = TokenService(repository=TokenPostgreSQLRepository())
         await token_service.remove_token_from_db(user_id, token)
@@ -77,17 +88,6 @@ class UserService:
         )
 
         return new_access_token, new_refresh_token
-
-    async def authenticate(
-        self, email: str, password: str
-    ) -> tp.Union[None, UserEntity]:
-        user = await self.__repository.find_by_email(email)
-        if user is not None:
-            password_hash = self.__get_password_hash(password)
-            if password_hash == user.password:
-                return user
-
-        return None
 
     async def __get_token_pair(
         self, user: UserEntity, payload: dict

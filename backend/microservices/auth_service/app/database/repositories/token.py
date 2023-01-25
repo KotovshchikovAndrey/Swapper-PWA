@@ -1,6 +1,9 @@
 import typing as tp
 from abc import ABC, abstractmethod
 
+from databases import Database
+
+from database import postgres
 from database.entities import TokenEntity, UserEntity
 from database.models import Token, User
 from database.repositories.base import BaseSqlRepository
@@ -29,8 +32,11 @@ class TokenRepository(ABC):
 
 
 class TokenPostgreSQLRepository(BaseSqlRepository[tp.Type[Token]], TokenRepository):
+    __db_connection: Database
+
     def __init__(self) -> None:
         super().__init__(model=Token)
+        self.__db_connection = postgres.database
 
     async def create(self, user_instance: User, value: str) -> None:
         await self._model.objects.create(user=user_instance, value=value)

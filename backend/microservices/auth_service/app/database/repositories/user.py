@@ -1,6 +1,9 @@
 import typing as tp
 from abc import ABC, abstractmethod
 
+from databases import Database
+
+from database import postgres
 from database.entities import UserEntity
 from database.models import User
 from database.repositories.base import BaseSqlRepository
@@ -34,8 +37,11 @@ class UserRepository(ABC):
 
 
 class UserPostgreSQLRepository(BaseSqlRepository[tp.Type[User]], UserRepository):
+    __db_connection: Database
+
     def __init__(self) -> None:
         super().__init__(model=User)
+        self.__db_connection = postgres.database
 
     async def get_by_id(self, id: int) -> tp.Optional[User]:
         return await self._model.objects.get_or_none(id=id)

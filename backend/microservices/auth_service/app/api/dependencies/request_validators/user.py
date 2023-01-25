@@ -1,13 +1,10 @@
 import typing as tp
-from dataclasses import fields
 
-from fastapi.requests import Request
-from validate_email import validate_email
+from validate_email import validate_email as email_is_valid
 
 from api.dependencies.request_validators.base import RequestValidator
 from domain.mappers import UserMapper
 from dto.user import UserLoginDTO, UserRegisterDTO
-from errors.api import ApiError
 
 __all__ = ("UserRequestValidatorFactory",)
 
@@ -24,7 +21,7 @@ class UserValidator(RequestValidator):
         if len(email) > 100:
             self._errors.append("Введенный email не должен превышать 100 сиволов")
 
-        if not validate_email(email):
+        if not email_is_valid(email):
             self._errors.append("Введите корректный email адресс")
 
     def validate_password(self, password: tp.Optional[str]):

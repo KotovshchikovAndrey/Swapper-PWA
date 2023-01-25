@@ -5,7 +5,7 @@ import typing as tp
 import databases
 import sqlalchemy
 
-__all__ = ("postgresql_connection",)
+from config import AppConfig
 
 
 class PostgreSQLConnection:
@@ -43,6 +43,11 @@ class PostgreSQLConnection:
         self.__metadata = sqlalchemy.MetaData()
         self.__database = databases.Database(url=self.db_url)
 
+    @classmethod
+    def get_connection(cls) -> PostgreSQLConnection:
+        postgres_config = AppConfig.get_postgres_config()
+        return cls(**postgres_config)
+
     async def connect(self):
         await self.database.connect()
 
@@ -62,12 +67,3 @@ class PostgreSQLConnection:
     @property
     def database(self):
         return self.__database
-
-
-postgresql_connection = PostgreSQLConnection(
-    user="postgres",
-    password="12345",
-    db_name="test_auth_db",
-    host="127.0.0.1",
-    port=5432,
-)

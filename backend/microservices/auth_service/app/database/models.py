@@ -2,14 +2,13 @@ import typing as tp
 
 import ormar
 
-from database import entities
-from database.connections import postgresql_connection
+from database import entities, postgres
 from utils.decorators.implementation import Implement
 
 
 class BaseMeta(ormar.ModelMeta):
-    metadata = postgresql_connection.metadata
-    database = postgresql_connection.database
+    metadata = postgres.metadata
+    database = postgres.database
 
 
 @Implement(interface=entities.UserEntity)

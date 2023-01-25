@@ -1,12 +1,12 @@
 from dotenv import load_dotenv
+
+load_dotenv()
+
 from fastapi import FastAPI
 
 from api.api_v1.routes import router as api_v1_router
-from database.connections import *
-from database.models import *
+from database import postgres
 from errors.handler import errors_handler
-
-load_dotenv()
 
 app = FastAPI()
 
@@ -16,9 +16,9 @@ app.include_router(api_v1_router, prefix="/api/v1")
 
 @app.on_event("startup")
 async def startup() -> None:
-    await postgresql_connection.connect()
+    await postgres.connect()
 
 
 @app.on_event("shutdown")
 async def shutdown() -> None:
-    await postgresql_connection.disconnect()
+    await postgres.disconnect()

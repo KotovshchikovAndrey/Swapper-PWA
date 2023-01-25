@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse
 
 from api.dependencies.middlewares import UserMiddleware
-from database.connections import postgresql_connection
+from database import postgres
 from database.repositories.user import UserPostgreSQLRepository
 from domain.services import UserService
 from dto.user import UserLoginDTO, UserRegisterDTO
@@ -17,7 +17,7 @@ router = APIRouter(prefix="/auth")
     name="registration",
     dependencies=[Depends(UserMiddleware.validate_registration_request)],
 )
-@postgresql_connection.database.transaction()
+@postgres.database.transaction()
 async def registration(user: UserRegisterDTO):
     user_service = UserService(repository=UserPostgreSQLRepository())
     access_token, refresh_token = await user_service.register(user)
@@ -45,7 +45,7 @@ async def registration(user: UserRegisterDTO):
     name="login",
     dependencies=[Depends(UserMiddleware.validate_login_request)],
 )
-@postgresql_connection.database.transaction()
+@postgres.database.transaction()
 async def login(user: UserLoginDTO):
     user_service = UserService(repository=UserPostgreSQLRepository())
     access_token, refresh_token = await user_service.login(user)

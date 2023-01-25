@@ -11,6 +11,8 @@ __all__ = ("TokenService",)
 
 
 class TokenService:
+    __repository: TokenRepository
+
     def __init__(self, repository: TokenRepository) -> None:
         self.__repository = repository
 
