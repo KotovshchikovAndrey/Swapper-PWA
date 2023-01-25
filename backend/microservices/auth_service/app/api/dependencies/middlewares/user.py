@@ -2,10 +2,10 @@ import typing as tp
 
 from fastapi.requests import Request
 
-from api.dependencies.request_validators import UserRequestValidatorFactory
 from api.dependencies.auth_backend import JwtAuthBackend
-from domain.services import TokenService
+from api.dependencies.request_validators import UserRequestValidatorFactory
 from database.repositories.token import TokenPostgreSQLRepository
+from domain.services import TokenService
 
 __all__ = ("UserMiddleware",)
 
@@ -30,8 +30,9 @@ class UserMiddleware:
         setattr(request, "user_payload", payload)
 
     @staticmethod
-    def check_can_refresh(request: Request):
+    async def check_can_refresh(request: Request):
         jwt_auth_backend = JwtAuthBackend(
             service=TokenService(repository=TokenPostgreSQLRepository())
         )
-        jwt_auth_backend.check_refresh_token(request)
+        payload = await jwt_auth_backend.check_refresh_token(request)
+        setattr(request, "user_payload", payload)

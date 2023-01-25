@@ -68,9 +68,30 @@ async def login(user: UserLoginDTO):
     return response
 
 
-@router.post("/refresh")
+@router.post("/refresh", dependencies=[Depends(UserMiddleware.check_can_refresh)])
 async def refresh(request: Request):
-    pass
+    user_service = UserService(repository=UserPostgreSQLRepository())
+    new_access_token, new_refresh_token = await user_service.refresh_token_pair(
+        payload=request.user_payload,
+        old_refresh_token=request.cookies["refresh_token"],
+    )
+
+    response = JSONResponse(
+        status_code=200,
+        content={
+            "message": "Токен обновлен!",
+            "access_token": new_access_token,
+            "refresh_token": new_refresh_token,
+        },
+    )
+    response.set_cookie(
+        key="refresh_token",
+        value=new_refresh_token,
+        httponly=True,
+        max_age=60 * 60 * 24 * 30,
+    )
+
+    return response
 
 
 @router.delete(
@@ -84,7 +105,8 @@ async def logout(request: Request):
     user_payload = request.user_payload
     user_service = UserService(repository=UserPostgreSQLRepository())
     await user_service.logout(
-        user_id=user_payload["id"], token=request.cookies["refresh_token"]
+        user_id=user_payload["id"],
+        token=request.cookies["refresh_token"],
     )
 
     response = JSONResponse(status_code=200, content={"message": "Вы разлогинены!"})

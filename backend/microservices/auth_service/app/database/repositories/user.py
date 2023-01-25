@@ -7,13 +7,9 @@ from database.repositories.base import BaseSqlRepository
 
 
 class UserRepository(ABC):
-    # @abstractmethod
-    # async def get_all(self):
-    #     pass
-
-    # @abstractmethod
-    # async def get_by_id(self):
-    #     pass
+    @abstractmethod
+    async def get_by_id(self, id: int) -> tp.Optional[UserEntity]:
+        pass
 
     @abstractmethod
     async def create(
@@ -29,16 +25,8 @@ class UserRepository(ABC):
         pass
 
     @abstractmethod
-    async def find_by_email(self, email: str) -> UserEntity:
+    async def find_by_email(self, email: str) -> tp.Optional[UserEntity]:
         pass
-
-    # @abstractmethod
-    # async def update(self):
-    #     pass
-
-    # @abstractmethod
-    # async def delete(self):
-    #     pass
 
     @abstractmethod
     async def email_exists(self, email: str):
@@ -48,6 +36,9 @@ class UserRepository(ABC):
 class UserPostgreSQLRepository(BaseSqlRepository[tp.Type[User]], UserRepository):
     def __init__(self) -> None:
         super().__init__(model=User)
+
+    async def get_by_id(self, id: int) -> tp.Optional[User]:
+        return await self._model.objects.get_or_none(id=id)
 
     async def create(
         self,
@@ -71,7 +62,7 @@ class UserPostgreSQLRepository(BaseSqlRepository[tp.Type[User]], UserRepository)
 
         return created_user
 
-    async def find_by_email(self, email: str) -> tp.Union[None, User]:
+    async def find_by_email(self, email: str) -> tp.Optional[User]:
         return await self._model.objects.get_or_none(email=email)
 
     async def email_exists(self, email: str) -> bool:

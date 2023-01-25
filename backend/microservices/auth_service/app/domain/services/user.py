@@ -62,11 +62,21 @@ class UserService:
         token_service = TokenService(repository=TokenPostgreSQLRepository())
         await token_service.remove_token_from_db(user_id, token)
 
-    async def refresh_tokens(
-        self, access_token: str, refresh_token: str
+    async def refresh_token_pair(
+        self, payload: dict, old_refresh_token: str
     ) -> tp.Tuple[str, str]:
+        user = await self.__repository.get_by_id(id=payload["id"])
+        if user is None:
+            raise ApiError.not_found(message="Пользователь не найден!")
 
-        pass
+        token_service = TokenService(repository=TokenPostgreSQLRepository())
+        new_access_token, new_refresh_token = await token_service.update_token_pair(
+            user=user,
+            old_refresh_token=old_refresh_token,
+            payload=payload,
+        )
+
+        return new_access_token, new_refresh_token
 
     async def authenticate(
         self, email: str, password: str
@@ -84,11 +94,11 @@ class UserService:
     ) -> tp.Tuple[str, str]:
         token_service = TokenService(repository=TokenPostgreSQLRepository())
         access_token, refresh_token = await token_service.create_token_pair(
-            user=user, payload=payload
+            user=user,
+            payload=payload,
         )
 
         return access_token, refresh_token
 
     def __get_password_hash(self, password: str):
-        # Мб соль добавить
         return hashlib.sha256(password.encode()).hexdigest()
