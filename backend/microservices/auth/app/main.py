@@ -1,6 +1,6 @@
-from dotenv import load_dotenv
+from config import AppConfig
 
-load_dotenv()
+AppConfig.load_env_config()
 
 from fastapi import FastAPI
 

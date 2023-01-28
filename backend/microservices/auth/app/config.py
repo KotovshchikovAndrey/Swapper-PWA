@@ -1,9 +1,15 @@
 import os
 
+from dotenv import load_dotenv
+
 from errors.config import ConfigError
 
 
 class AppConfig:
+    @staticmethod
+    def load_env_config(path: str = ".env"):
+        load_dotenv(path)
+
     @staticmethod
     def get_secret_key():
         SECRET_KEY = os.getenv("SECRET_KEY")
