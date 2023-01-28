@@ -7,9 +7,9 @@ from errors.api import ApiError
 from errors.config import ConfigError
 
 
-async def errors_handler(request: Request, call_next: tp.Callable):
+async def errors_handler(request: Request, call_next: tp.Callable):  # type: ignore
     try:
-        return await call_next(request)
+        return await call_next(request)  # type: ignore
     except Exception as exc:
         if isinstance(exc, ApiError):
             return JSONResponse(

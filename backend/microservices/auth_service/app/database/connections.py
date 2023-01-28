@@ -19,7 +19,7 @@ class PostgreSQLConnection:
     host: str
     port: tp.Union[str, int]
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args: tp.Any, **kwargs: tp.Any):
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
 

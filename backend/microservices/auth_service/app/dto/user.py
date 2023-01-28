@@ -9,7 +9,7 @@ class UserDTO:
     surname: str
     email: str
     patronymic: tp.Optional[str] = None
-    phone: tp.Optional[int] = None
+    phone: tp.Optional[str] = None
     is_active: bool = False
 
 
@@ -21,7 +21,7 @@ class UserRegisterDTO:
     age: int
     password: str
     patronymic: tp.Optional[str] = None
-    phone: tp.Optional[int] = None
+    phone: tp.Optional[str] = None
 
 
 @dataclasses.dataclass

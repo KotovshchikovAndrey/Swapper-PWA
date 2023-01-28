@@ -1,5 +1,5 @@
 import typing as tp
-from abc import ABC, abstractmethod
+from abc import ABC
 
 from fastapi.requests import Request
 
@@ -9,6 +9,8 @@ __all__ = ("RequestValidator",)
 
 
 class RequestValidator(ABC):
+    _fields: tp.Tuple[str]
+    _valid_data: tp.Dict[str, tp.Any]
     _errors: tp.List[str]
 
     def __init__(self, fields: tp.Tuple[str]) -> None:
@@ -17,7 +19,7 @@ class RequestValidator(ABC):
         self._errors = []
 
     async def validate(self, request: Request) -> tp.Union[None, ApiError]:
-        data: dict = await request.json()
+        data: tp.Dict[str, tp.Any] = await request.json()
 
         # Поочередный вызов методов для валидации каждого поля из DTO
         for field in self._fields:

@@ -1,5 +1,3 @@
-import typing as tp
-
 import ormar
 
 from database import entities, postgres
@@ -11,9 +9,9 @@ class BaseMeta(ormar.ModelMeta):
     database = postgres.database
 
 
-@Implement(interface=entities.UserEntity)
+@Implement(interface=entities.UserEntity)  # type: ignore
 class User(ormar.Model):
-    class Meta(BaseMeta):
+    class Meta(BaseMeta):  # type: ignore
         tablename = "user"
 
     id = ormar.Integer(primary_key=True)
@@ -27,9 +25,9 @@ class User(ormar.Model):
     is_active = ormar.Boolean(default=False, index=True)
 
 
-@Implement(interface=entities.TokenEntity)
+@Implement(interface=entities.TokenEntity)  # type: ignore
 class Token(ormar.Model):
-    class Meta(BaseMeta):
+    class Meta(BaseMeta):  # type: ignore
         tablename = "token"
 
     id = ormar.Integer(primary_key=True)
@@ -37,9 +35,9 @@ class Token(ormar.Model):
     value = ormar.String(max_length=255, unique=True, nullable=False)
 
 
-@Implement(interface=entities.CodeEntity)
+@Implement(interface=entities.CodeEntity)  # type: ignore
 class Code(ormar.Model):
-    class Meta(BaseMeta):
+    class Meta(BaseMeta):  # type: ignore
         tablename = "code"
 
     id = ormar.Integer(primary_key=True)

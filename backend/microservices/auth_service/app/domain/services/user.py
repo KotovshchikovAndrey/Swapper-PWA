@@ -44,23 +44,21 @@ class UserService:
         return access_token, refresh_token
 
     async def login(self, user: UserLoginDTO) -> tp.Tuple[str, str]:
-        user = await self.authenticate(email=user.email, password=user.password)
-        if user is None:
+        user_in_db = await self.authenticate(email=user.email, password=user.password)
+        if user_in_db is None:
             raise ApiError.unauthorized(message="Неверный логин или пароль")
 
         access_token, refresh_token = await self.__get_token_pair(
-            user=user,
+            user=user_in_db,
             payload={
-                "id": user.id,
-                "name": user.name,
+                "id": user_in_db.id,
+                "name": user_in_db.name,
             },
         )
 
         return access_token, refresh_token
 
-    async def authenticate(
-        self, email: str, password: str
-    ) -> tp.Union[None, UserEntity]:
+    async def authenticate(self, email: str, password: str) -> tp.Optional[UserEntity]:
         user = await self.__repository.find_by_email(email)
         if user is not None:
             password_hash = self.__get_password_hash(password)
@@ -74,7 +72,7 @@ class UserService:
         await token_service.remove_token_from_db(user_id, token)
 
     async def refresh_token_pair(
-        self, payload: dict, old_refresh_token: str
+        self, payload: tp.Dict[str, tp.Any], old_refresh_token: str
     ) -> tp.Tuple[str, str]:
         user = await self.__repository.get_by_id(id=payload["id"])
         if user is None:
@@ -90,7 +88,7 @@ class UserService:
         return new_access_token, new_refresh_token
 
     async def __get_token_pair(
-        self, user: UserEntity, payload: dict
+        self, user: UserEntity, payload: tp.Dict[str, tp.Any]
     ) -> tp.Tuple[str, str]:
         token_service = TokenService(repository=TokenPostgreSQLRepository())
         access_token, refresh_token = await token_service.create_token_pair(

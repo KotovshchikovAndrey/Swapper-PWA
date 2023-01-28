@@ -1,5 +1,4 @@
 import os
-import typing as tp
 
 from errors.config import ConfigError
 

@@ -68,11 +68,11 @@ async def login(user: UserLoginDTO):
     return response
 
 
-@router.post("/refresh", dependencies=[Depends(UserMiddleware.check_can_refresh)])
+@router.patch("/refresh", dependencies=[Depends(UserMiddleware.check_can_refresh)])
 async def refresh(request: Request):
     user_service = UserService(repository=UserPostgreSQLRepository())
     new_access_token, new_refresh_token = await user_service.refresh_token_pair(
-        payload=request.user_payload,
+        payload=request.user_payload,  # type: ignore
         old_refresh_token=request.cookies["refresh_token"],
     )
 
@@ -102,7 +102,7 @@ async def refresh(request: Request):
     ],
 )
 async def logout(request: Request):
-    user_payload = request.user_payload
+    user_payload: tp.Dict[str, tp.Any] = request.user_payload  # type: ignore
     user_service = UserService(repository=UserPostgreSQLRepository())
     await user_service.logout(
         user_id=user_payload["id"],

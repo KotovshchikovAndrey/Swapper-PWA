@@ -1,33 +1,32 @@
 import { AuthFormData } from "../store/reducers/auth"
 
-export const navList = [
-    "Найти Сваппера",
-    "Рейтинг Свапперов",
-    "Сваппы Дня"
-]
+export const navList = ["Найти Сваппера", "Рейтинг Свапперов", "Сваппы Дня"]
 
 export const contactsList = [
-    "Автор: Котовщиков Андрей",
-    "Email: ykt_andrey@mail.ru",
-    "Телефон: +79142230797"
+	"Автор: Котовщиков Андрей",
+	"Email: ykt_andrey@mail.ru",
+	"Телефон: +79142230797",
 ]
 
 export const abilities = [
-    {
-        key: 1,
-        imageUrl: "http://localhost/images/security_and_abilities.png",
-        abilityDescription: "Swapper предоставляет удобную и безопасную площадку для поиска и предоставления услуг"
-    },
-    {
-        key: 2,
-        imageUrl: "http://localhost/images/functionality.png",
-        abilityDescription: "Обширный, простой и интуитивно понятный функционал который поможет вам легко и удобно совершать обмены"
-    },
-    {
-        key: 3,
-        imageUrl: "http://localhost/images/support.png",
-        abilityDescription: "Круглосуточная техподдержка, готовая помочь вам с любым вопросом в любое время"
-    }
+	{
+		key: 1,
+		imageUrl: "http://localhost/images/security_and_abilities.png",
+		abilityDescription:
+			"Swapper предоставляет удобную и безопасную площадку для поиска и предоставления услуг",
+	},
+	{
+		key: 2,
+		imageUrl: "http://localhost/images/functionality.png",
+		abilityDescription:
+			"Обширный, простой и интуитивно понятный функционал который поможет вам легко и удобно совершать обмены",
+	},
+	{
+		key: 3,
+		imageUrl: "http://localhost/images/support.png",
+		abilityDescription:
+			"Круглосуточная техподдержка, готовая помочь вам с любым вопросом в любое время",
+	},
 ]
 
 export const headerDescription = `Swapper - это сервис для поиска и осуществления взаимовыгодных отношений
@@ -42,8 +41,8 @@ export const aboutDescription = `Если вы ищите людей для вы
                                 "Рейтинг сваперов`
 
 export const authInputsText: AuthFormData = {
-    name: "Введите ваше имя",
-    surname: "Введите вашу фамилия",
-    email: "Введите ваш email",
-    phone: "Введите ваш номер телефона"
+	name: "Введите ваше имя",
+	surname: "Введите вашу фамилия",
+	email: "Введите ваш email",
+	phone: "Введите ваш номер телефона",
 }

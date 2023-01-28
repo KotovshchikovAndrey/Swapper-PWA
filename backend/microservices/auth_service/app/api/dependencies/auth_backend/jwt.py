@@ -12,23 +12,19 @@ class JwtAuthBackend:
     def __init__(self, service: TokenService) -> None:
         self.__service = service
 
-    def check_access_token(self, request: Request) -> dict:
+    def check_access_token(self, request: Request) -> tp.Dict[str, tp.Any]:
         access_token = self.__get_access_token_from_request(request)
         payload = self.__service.decode_access_token(token=access_token)
-        if payload is None:
-            raise ApiError.forbidden(message="Невалидный токен!")
 
         return payload
 
-    async def check_refresh_token(self, request: Request) -> dict:
-        access_token = self.__get_access_token_from_request(request)
+    async def check_refresh_token(self, request: Request) -> tp.Dict[str, tp.Any]:
         refresh_token = request.cookies.get("refresh_token", None)
         if refresh_token is None:
             raise ApiError.forbidden(message="Токен обновления не был передан!")
 
+        access_token = self.__get_access_token_from_request(request)
         payload = self.__service.decode_refresh_token(refresh_token, access_token)
-        if payload is None:
-            raise ApiError.forbidden(message="Невалидный токен!")
 
         token_in_db = await self.__service.check_token_in_db(
             user_id=payload["id"],

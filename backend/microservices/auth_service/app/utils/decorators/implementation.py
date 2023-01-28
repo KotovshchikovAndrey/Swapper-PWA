@@ -1,9 +1,8 @@
 import typing as tp
-from abc import ABC
 
 from errors.implement import ImplementError
 
-T = tp.TypeVar("T", bound=tp.Type)
+T = tp.TypeVar("T", bound=tp.Type[object])
 
 
 class Implement(tp.Generic[T]):

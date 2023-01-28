@@ -1,5 +1,3 @@
-import typing as tp
-
 from fastapi.requests import Request
 
 from api.dependencies.auth_backend import JwtAuthBackend
