@@ -35,7 +35,7 @@ class Swap(models.Model):
 
 
 class SwapHistory(models.Model):
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         "User", on_delete=models.CASCADE, verbose_name="Пользователь"
     )
     swaps = models.ManyToManyField("Swap", verbose_name="Обмены")
