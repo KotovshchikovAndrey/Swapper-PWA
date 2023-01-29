@@ -2,7 +2,7 @@ import typing as tp
 from app_profile.services.user import UserService
 from app_profile.services.swap import SwapService
 
-from app_profile.models import SwapHistory, Swap
+from app_profile.models import Swap
 
 
 class ProfileService:
@@ -18,14 +18,6 @@ class ProfileService:
         if user is None:
             raise
 
-        swap_history = (
-            SwapHistory.objects.prefetch_related("swaps")
-            .only("swaps")
-            .filter(user=user)
-            .first()
-        )
+        swap_history = self.__swap_service.get_history(user)
 
-        if swap_history is not None:
-            return swap_history.swaps.all()
-
-        return []
+        return swap_history
