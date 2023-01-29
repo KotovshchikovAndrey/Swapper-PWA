@@ -1,9 +1,10 @@
 from django.contrib import admin
+
 from app_profile import models
 
 
-@admin.register(models.User)
-class UserAdmin(admin.ModelAdmin):
+@admin.register(models.UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
     pass
 
 

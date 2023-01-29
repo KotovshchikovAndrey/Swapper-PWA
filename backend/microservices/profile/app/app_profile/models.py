@@ -1,8 +1,8 @@
 from django.db import models
 
 
-class User(models.Model):
-    name = models.CharField(
+class UserProfile(models.Model):
+    username = models.CharField(
         max_length=100,
         null=False,
         blank=False,
@@ -45,17 +45,18 @@ class User(models.Model):
     )
 
     class Meta:
-        verbose_name = "Пользователь"
-        verbose_name_plural = "Пользователи"
+        verbose_name = "Профиль пользователя"
+        verbose_name_plural = "Профили пользователей"
 
     def __str__(self) -> str:
-        return f"{self.surname} {self.name}"
+        return f"{self.surname} {self.username}"
 
 
 class Swap(models.Model):
-    user = models.ForeignKey(
-        "User",
+    user_profile = models.ForeignKey(
+        "UserProfile",
         on_delete=models.CASCADE,
+        related_name="swaps",
         verbose_name="Пользователь",
     )
     date = models.DateTimeField(
@@ -80,13 +81,14 @@ class Swap(models.Model):
         verbose_name_plural = "Обмены"
 
     def __str__(self) -> str:
-        return f"Обмен с пользователем {self.user}"
+        return f"Обмен с пользователем {self.user_profile}"
 
 
 class SwapHistory(models.Model):
-    user = models.OneToOneField(
-        "User",
+    user_profile = models.OneToOneField(
+        "UserProfile",
         on_delete=models.CASCADE,
+        related_name="swap_history",
         verbose_name="Пользователь",
     )
     swaps = models.ManyToManyField("Swap", verbose_name="Обмены")
@@ -95,4 +97,4 @@ class SwapHistory(models.Model):
         verbose_name_plural = "История обменов"
 
     def __str__(self) -> str:
-        return f"История обменов пользователя {self.user}"
+        return f"История обменов пользователя {self.user_profile}"
