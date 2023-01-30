@@ -7,15 +7,27 @@ from rest_framework.response import Response
 
 from app_profile.serializers import SerializerFactory, UserProfileSerializer
 from app_profile.services.profile import ProfileService
+from app_profile.services.swap import SwapService
+from app_profile.utils.decorators.inject import Inject
 
 
 class ProfileViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin):
     serializer_class = UserProfileSerializer
 
+    @Inject(ProfileService)
+    @action(detail=True, methods=["get"])
+    def user(self, request: Request, pk: int, service: ProfileService):
+        user_representation = service.get_user_representation(user_id=pk)
+        serializer = self.get_serializer(
+            user_representation, serializer_name="representation"
+        )
+
+        return Response(status=200, data=serializer.data)
+
+    @Inject(ProfileService)
     @action(url_path="swap.history", detail=False, methods=["get"])
-    def swap_history(self, request: Request):
-        profile_service = ProfileService()
-        swap_history = profile_service.get_swap_history(profile_id=2)
+    def swap_history(self, request: Request, service: ProfileService):
+        swap_history = service.get_swap_history(profile_id=2)
         serializer = self.get_serializer(
             swap_history,
             many=True,
@@ -24,12 +36,29 @@ class ProfileViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin):
 
         return Response(status=200, data=serializer.data)
 
-    @action(detail=True, methods=["get"])
-    def raiting(self, request: Request, pk: int):
-        profile_service = ProfileService()
-        raiting = profile_service.calculate_raiting(profile_id=pk)
+    # Вынести в отдельный ViewSet
 
-        return Response(status=200, data={"raiting": raiting})
+    # @Inject(SwapService)
+    # @action(detail=False, methods=["post"])
+    # def assessment(self, request: Request, service: SwapService):
+    #     swap_id = request.query_params.get("swap_id", None)
+    #     if swap_id is None:
+    #         raise
+
+    #     assessment = request.data.get("assessment", None)
+    #     if (assessment is None) or (not isinstance(assessment, int)):
+    #         raise
+
+    #     service.set_assessment(swap_id, assessment)
+
+    #     return Response(status=201)
+
+    @Inject(ProfileService)
+    @action(detail=True, methods=["get"])
+    def rating(self, request: Request, pk: int, service: ProfileService):
+        rating = service.calculate_rating(profile_id=pk)
+
+        return Response(status=200, data={"raiting": rating})
 
     def get_queryset(self):
         profile_service = ProfileService()

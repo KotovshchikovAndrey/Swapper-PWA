@@ -1,7 +1,6 @@
 import typing as tp
 
 from django.db import connection
-from django.db.models import Count, Sum
 
 from app_profile.models import UserProfile
 
@@ -18,6 +17,17 @@ class ProfileService:
     def get_by_id(self, profile_id: int) -> tp.Optional[UserProfile]:
         return self.__model.objects.filter(id=profile_id).first()
 
+    def get_user_representation(self, user_id: int) -> UserProfile:
+        user_profile = (
+            self.__model.objects.only("username", "surname", "patronymic", "age")
+            .filter(id=user_id)
+            .first()
+        )
+        if user_profile is None:
+            raise
+
+        return user_profile
+
     def get_swap_history(self, profile_id: int) -> tp.List[tp.Tuple]:
         with connection.cursor() as cursor:
             cursor.execute(
@@ -25,11 +35,10 @@ class ProfileService:
                 SELECT app_profile_swap.id, date, description, username, surname, patronymic FROM app_profile_swap 
                 JOIN app_profile_userprofile as profile_table ON profile_table.id = user_profile_id 
                 WHERE app_profile_swap.id IN (
-                    SELECT swap_id FROM app_profile_swaphistory_swaps WHERE swaphistory_id =
-                    (
+                    SELECT swap_id FROM app_profile_swaphistory_swaps WHERE swaphistory_id = (
                         SELECT id FROM app_profile_swaphistory WHERE user_profile_id=%s
                     )
-                )
+                ) ORDER BY app_profile_swap.id
             """,
                 (profile_id,),
             )
@@ -37,7 +46,17 @@ class ProfileService:
 
             return swap_history
 
-    def calculate_raiting(self, profile_id: int) -> tp.Optional[float]:
+    def update_rating(self, profile_id: int) -> None:
+        user_profile = self.__model.objects.filter(id=profile_id).first()
+        if user_profile is None:
+            raise
+
+        user_profile.rating = self.calculate_rating(profile_id)
+        user_profile.save(update_fields=("rating",))
+
+        return
+
+    def calculate_rating(self, profile_id: int) -> tp.Optional[float]:
         with connection.cursor() as cursor:
             cursor.execute(
                 """
@@ -53,6 +72,6 @@ class ProfileService:
             """,
                 (profile_id,),
             )
-            raiting = cursor.fetchone()[0]
+            rating = cursor.fetchone()[0]
 
-            return raiting
+            return rating

@@ -75,6 +75,18 @@ class Swap(models.Model):
         blank=True,
         verbose_name="Оценка обмена",
     )
+    is_active = models.BooleanField(
+        default=True,
+        null=False,
+        blank=False,
+        verbose_name="Активность сделки",
+    )
+    is_end = models.BooleanField(
+        default=False,
+        null=False,
+        blank=False,
+        verbose_name="Окончание сделки",
+    )
 
     class Meta:
         verbose_name = "Обмен"
