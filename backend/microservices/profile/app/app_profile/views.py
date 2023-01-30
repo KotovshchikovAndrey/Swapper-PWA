@@ -19,7 +19,7 @@ class ProfileViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin):
         serializer = self.get_serializer(
             swap_history,
             many=True,
-            serializer_name="swap",
+            serializer_name="swap_history",
         )
 
         return Response(status=200, data=serializer.data)

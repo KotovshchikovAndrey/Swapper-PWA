@@ -12,39 +12,25 @@ class UserProfileSerializer(serializers.ModelSerializer):
         exclude = ("rating",)
 
 
-class SwapSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Swap
-        fields = "__all__"
-
-    def to_representation(self, instance: models.Swap):
-        user_full_name = self.__get_user_full_name(user_profile=instance.user_profile)
-
+class SwapHistorySerializer(serializers.Serializer):
+    def to_representation(self, obj):
         return {
-            "user": user_full_name,
-            "description": instance.description,
-            "date": instance.date,
+            "id": obj[0],
+            "date": obj[1],
+            "description": obj[2],
+            "user": {
+                "username": obj[3],
+                "surname": obj[4],
+                "patronymic": obj[5],
+            },
         }
-
-    def __get_user_full_name(self, user_profile: models.UserProfile) -> str:
-        username, surname, patronymic = (
-            user_profile.username,
-            user_profile.surname,
-            user_profile.patronymic,
-        )
-
-        full_name = f"{username} {surname}"
-        if patronymic is not None:
-            return full_name + f" {patronymic}"
-
-        return full_name
 
 
 class SerializerFactory:
     __name: str
 
     __serializer_classes: tp.Dict[str, tp.Type[Serializer]] = {
-        "swap": SwapSerializer,
+        "swap_history": SwapHistorySerializer,
         "user": UserProfileSerializer,
     }
 

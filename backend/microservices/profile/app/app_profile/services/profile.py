@@ -1,9 +1,9 @@
 import typing as tp
 
+from django.db import connection
 from django.db.models import Count, Sum
-from django.db.models.query import QuerySet
 
-from app_profile.models import Swap, UserProfile
+from app_profile.models import UserProfile
 
 
 class ProfileService:
@@ -18,22 +18,42 @@ class ProfileService:
     def get_by_id(self, profile_id: int) -> tp.Optional[UserProfile]:
         return self.__model.objects.filter(id=profile_id).first()
 
-    def get_swap_history(self, profile_id: int) -> QuerySet[Swap]:
-        user = (
-            self.__model.objects.prefetch_related("swap_history__swaps")
-            .only("swap_history__swaps")
-            .filter(id=profile_id)
-            .first()
-        )
-        if user is None:
-            raise
+    def get_swap_history(self, profile_id: int) -> tp.List[tp.Tuple]:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT app_profile_swap.id, date, description, username, surname, patronymic FROM app_profile_swap 
+                JOIN app_profile_userprofile as profile_table ON profile_table.id = user_profile_id 
+                WHERE app_profile_swap.id IN (
+                    SELECT swap_id FROM app_profile_swaphistory_swaps WHERE swaphistory_id =
+                    (
+                        SELECT id FROM app_profile_swaphistory WHERE user_profile_id=%s
+                    )
+                )
+            """,
+                (profile_id,),
+            )
+            swap_history = cursor.fetchall()
 
-        return user.swap_history.swaps
+            return swap_history
 
-    def calculate_raiting(self, profile_id: int) -> float:
-        swap_history = self.get_swap_history(profile_id)
-        raiting = swap_history.aggregate(raiting=Sum("assessment") / Count("id"))[
-            "raiting"
-        ]
+    def calculate_raiting(self, profile_id: int) -> tp.Optional[float]:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT SUM(swap_ids.assessment) / COUNT(swap_ids) FROM (
+                SELECT swap_id, swap_table.assessment FROM app_profile_swaphistory_swaps as swap_hist_table 
+                JOIN app_profile_swap as swap_table ON swap_table.id=swap_id
+                WHERE swaphistory_id = (
+                    SELECT swaphistory_id FROM app_profile_swaphistory as swap_hist_table 
+                    WHERE user_profile_id = (
+                        SELECT id FROM app_profile_userprofile WHERE id=%s
+                    )
+                )
+            ) as swap_ids
+            """,
+                (profile_id,),
+            )
+            raiting = cursor.fetchone()[0]
 
-        return raiting
+            return raiting
