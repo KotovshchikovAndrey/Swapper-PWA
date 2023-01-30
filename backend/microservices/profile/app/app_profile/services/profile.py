@@ -41,8 +41,8 @@ class ProfileService:
         with connection.cursor() as cursor:
             cursor.execute(
                 """
-                SELECT SUM(swap_ids.assessment) / COUNT(swap_ids) FROM (
-                SELECT swap_id, swap_table.assessment FROM app_profile_swaphistory_swaps as swap_hist_table 
+                SELECT ROUND(CAST (SUM(swap_table.assessment) AS NUMERIC) / COUNT(swap_id), 2)
+                FROM app_profile_swaphistory_swaps as swap_hist_table 
                 JOIN app_profile_swap as swap_table ON swap_table.id=swap_id
                 WHERE swaphistory_id = (
                     SELECT swaphistory_id FROM app_profile_swaphistory as swap_hist_table 
@@ -50,7 +50,6 @@ class ProfileService:
                         SELECT id FROM app_profile_userprofile WHERE id=%s
                     )
                 )
-            ) as swap_ids
             """,
                 (profile_id,),
             )
