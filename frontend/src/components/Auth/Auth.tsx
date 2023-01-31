@@ -1,43 +1,21 @@
-import React, { useEffect } from "react"
-import { Link } from "react-router-dom"
-
-import { useTypedSelector, useTypedDispatch } from "../../hooks/redux"
-import { resetAuthData } from "../../store/reducers/auth"
-
 // @ts-ignore
 import styles from "./Auth.module.css"
 // @ts-ignore
-import animations from "../../Animations.module.css"
+import animations from "../../animations/Animations.module.css"
 
-import AuthForm from "./AuthForm/AuthForm"
+// React inports
+import React from "react"
+import { Link } from "react-router-dom"
+
+import AuthForm from "./Form/Form"
+// import AuthFormData from "./FormData/FormData"
 import Footer from "../UI/Footer/Footer"
 
-// let render = 0
-
 export default function Auth() {
-	// console.warn(`render Auth is ${++render}`)
-	const authFormData = useTypedSelector((state) => state.auth.data)
-	const dispatch = useTypedDispatch()
-
-	// Сбрасывает данные формы
-	useEffect(() => {
-		dispatch(resetAuthData())
-	}, [])
-
 	return (
 		<React.Fragment>
 			<section className={`${styles.auth_section}`}>
-				<Link
-					to="/"
-					style={{
-						color: "black",
-						display: "block",
-						padding: "10px 0 0 20px",
-						textDecoration: "none",
-						font: "inherit",
-						fontSize: 20,
-					}}
-				>
+				<Link to="/" className={styles.auth_link}>
 					Главная
 				</Link>
 				<div className="container">
@@ -55,25 +33,7 @@ export default function Auth() {
 						вам необходимо зарегистрироваться
 					</p>
 					<AuthForm />
-					<div className={`flex ${styles.auth_data_wrapper}`}>
-						<ul className={`flex ${styles.auth_data_list} ${styles.auth_text}`}>
-							{authFormData.name && (
-								<li className={`${animations.appearance} ${styles.auth_data_item}`}>
-									Ваше имя: {authFormData.name}
-								</li>
-							)}
-							{authFormData.surname && (
-								<li className={`${animations.appearance} ${styles.auth_data_item}`}>
-									Ваша фамилия: {authFormData.surname}
-								</li>
-							)}
-							{authFormData.email && (
-								<li className={`${animations.appearance} ${styles.auth_data_item}`}>
-									Ваш email: {authFormData.email}
-								</li>
-							)}
-						</ul>
-					</div>
+					{/* <AuthFormData /> */}
 				</div>
 			</section>
 			<Footer />

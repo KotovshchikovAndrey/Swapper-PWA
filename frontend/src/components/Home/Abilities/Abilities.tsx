@@ -1,7 +1,7 @@
 import React from "react"
 import './Abilities.css'
 
-import AbilitiesList from "./AbilitiesList/AbilitiesList"
+import AbilitiesList from "./List/List"
 import { abilities } from "../../../data/static"
 
 

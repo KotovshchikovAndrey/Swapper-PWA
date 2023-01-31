@@ -1,4 +1,4 @@
-import { AuthFormData } from "../store/reducers/auth"
+// import { IAuthData } from "../store/reducers/auth/auth"
 
 export const navList = ["Найти Сваппера", "Рейтинг Свапперов", "Сваппы Дня"]
 
@@ -40,9 +40,9 @@ export const aboutDescription = `Если вы ищите людей для вы
                                 наилучший опыт сотрудничество с людьми с наивысшим рейтингом - нажмите
                                 "Рейтинг сваперов`
 
-export const authInputsText: AuthFormData = {
-	name: "Введите ваше имя",
-	surname: "Введите вашу фамилия",
-	email: "Введите ваш email",
-	phone: "Введите ваш номер телефона",
-}
+// export const authInputsText: IAuthData = {
+// 	name: "Введите ваше имя",
+// 	surname: "Введите вашу фамилия",
+// 	email: "Введите ваш email",
+// 	phone: "Введите ваш номер телефона",
+// }
