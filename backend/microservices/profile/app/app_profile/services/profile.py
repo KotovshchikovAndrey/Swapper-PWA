@@ -3,6 +3,7 @@ import typing as tp
 from django.db import connection
 
 from app_profile.models import UserProfile
+from app.exceptions.api import ApiError
 
 
 class ProfileService:
@@ -14,17 +15,18 @@ class ProfileService:
     def get_all(self):
         return self.__model.objects.all()
 
-    def get_by_id(self, profile_id: int) -> tp.Optional[UserProfile]:
-        return self.__model.objects.filter(id=profile_id).first()
+    def get_by_id(self, profile_id: int, fields: tp.Tuple[str] = ()) -> UserProfile:
+        user_profile = self.__model.objects.only(*fields).filter(id=profile_id).first()
+        if user_profile is None:
+            raise ApiError.not_found(message="Профиль не найден!")
+
+        return user_profile
 
     def get_user_representation(self, user_id: int) -> UserProfile:
-        user_profile = (
-            self.__model.objects.only("username", "surname", "patronymic", "age")
-            .filter(id=user_id)
-            .first()
+        user_profile = self.get_by_id(
+            profile_id=user_id,
+            fields=("username", "surname", "patronymic", "age", "rating"),
         )
-        if user_profile is None:
-            raise
 
         return user_profile
 
@@ -47,14 +49,9 @@ class ProfileService:
             return swap_history
 
     def update_rating(self, profile_id: int) -> None:
-        user_profile = self.__model.objects.filter(id=profile_id).first()
-        if user_profile is None:
-            raise
-
+        user_profile = self.get_by_id(profile_id, fields=("rating",))
         user_profile.rating = self.calculate_rating(profile_id)
         user_profile.save(update_fields=("rating",))
-
-        return
 
     def calculate_rating(self, profile_id: int) -> tp.Optional[float]:
         with connection.cursor() as cursor:
