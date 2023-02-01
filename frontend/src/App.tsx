@@ -2,8 +2,8 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import './App.css'
 
-import Home from './components/Home/Home'
-import Auth from './components/Auth/Auth'
+import Home from './components/Home'
+import Auth from './components/Auth'
 
 
 function App() {

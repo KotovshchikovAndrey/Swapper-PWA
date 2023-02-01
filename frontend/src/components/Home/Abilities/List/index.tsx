@@ -1,8 +1,8 @@
 import React from "react"
-import "./List.css"
+import "./index.css"
 
-import AbilityItem from "../Item/Item"
-import { AbilitiesListProps } from "../propsTypes"
+import AbilityItem from "../Item"
+import { AbilitiesListProps } from "../types"
 
 export default function AbilitiesList(props: AbilitiesListProps) {
 	return (

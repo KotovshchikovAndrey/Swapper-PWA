@@ -1,13 +1,13 @@
 // @ts-ignore
-import styles from "./Form.module.css"
+import styles from "./index.module.css"
 // @ts-ignore
 import animations from "../../../animations/Animations.module.css"
 
 import React from "react"
 import { useTypedDispatch, useTypedSelector } from "../../../hooks/redux"
 
-import AuthButton from "../Button/Button"
-import AuthInput from "./Input/Input"
+import AuthButton from "../Button"
+import AuthInput from "./Input"
 
 export default function AuthForm() {
 	const dispatch = useTypedDispatch()

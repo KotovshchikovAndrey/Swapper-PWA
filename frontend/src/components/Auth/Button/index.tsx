@@ -1,5 +1,5 @@
 // @ts-ignore
-import styles from "./Button.module.css"
+import styles from "./index.module.css"
 
 import React, { ButtonHTMLAttributes } from "react"
 

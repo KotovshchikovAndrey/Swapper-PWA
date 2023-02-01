@@ -1,5 +1,5 @@
 // @ts-ignore
-import styles from "./FormData.module.css"
+import styles from "./index.module.css"
 // @ts-ignore
 import animations from "../../../animations/Animations.module.css"
 

@@ -1,5 +1,5 @@
 // @ts-ignore
-import styles from "./Auth.module.css"
+import styles from "./index.module.css"
 // @ts-ignore
 import animations from "../../animations/Animations.module.css"
 
@@ -7,9 +7,9 @@ import animations from "../../animations/Animations.module.css"
 import React from "react"
 import { Link } from "react-router-dom"
 
-import AuthForm from "./Form/Form"
+import AuthForm from "./Form"
 // import AuthFormData from "./FormData/FormData"
-import Footer from "../UI/Footer/Footer"
+import Footer from "../UI/Footer"
 
 export default function Auth() {
 	return (
