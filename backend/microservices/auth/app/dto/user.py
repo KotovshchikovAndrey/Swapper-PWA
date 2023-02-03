@@ -1,19 +1,8 @@
-import dataclasses
 import typing as tp
+from dataclasses import dataclass
 
 
-@dataclasses.dataclass
-class UserDTO:
-    id: int
-    name: str
-    surname: str
-    email: str
-    patronymic: tp.Optional[str] = None
-    phone: tp.Optional[str] = None
-    is_active: bool = False
-
-
-@dataclasses.dataclass
+@dataclass(frozen=True)
 class UserRegisterDTO:
     name: str
     surname: str
@@ -24,8 +13,13 @@ class UserRegisterDTO:
     phone: tp.Optional[str] = None
 
 
-@dataclasses.dataclass
+@dataclass(frozen=True)
 class UserLoginDTO:
     email: str
     password: str
-    confirm_password: str
+
+
+@dataclass(frozen=True)
+class UserLogoutDTO:
+    id: int
+    refresh_token: str

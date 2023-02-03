@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
-from errors.config import ConfigError
+from errors.exceptions.config import ConfigError
 
 
 class AppConfig:

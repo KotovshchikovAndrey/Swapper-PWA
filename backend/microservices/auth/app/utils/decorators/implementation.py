@@ -1,6 +1,6 @@
 import typing as tp
 
-from errors.implement import ImplementError
+from errors.exceptions.implement import ImplementError
 
 T = tp.TypeVar("T", bound=tp.Type[object])
 

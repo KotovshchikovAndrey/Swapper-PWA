@@ -4,11 +4,9 @@ import typing as tp
 import jwt
 
 from config import AppConfig
-from database.entities import UserEntity
-from database.repositories import TokenRepository
-from errors.api import ApiError
-
-__all__ = ("TokenService",)
+from core.entities import UserEntity
+from dao.database.repositories import TokenRepository
+from errors.exceptions.api import ApiError
 
 
 class TokenService:
@@ -28,10 +26,7 @@ class TokenService:
         return access_token, refresh_token
 
     async def update_token_pair(
-        self,
-        user: UserEntity,
-        old_refresh_token: str,
-        payload: tp.Dict[str, tp.Any],
+        self, user: UserEntity, payload: tp.Dict[str, tp.Any], old_refresh_token: str
     ) -> tp.Tuple[str, str]:
         new_access_token = self.__generate_access_token(payload)
         access_token_part = self.__get_access_token_part(new_access_token)
@@ -53,18 +48,6 @@ class TokenService:
             return True
 
         return False
-
-    def decode_access_token(self, token: str) -> tp.Dict[str, tp.Any]:
-        try:
-            payload = jwt.decode(  # type: ignore
-                jwt=token,
-                key=AppConfig.get_secret_key(),
-                algorithms=["HS256"],
-            )
-
-            return payload
-        except jwt.InvalidTokenError:
-            raise ApiError.forbidden(message="Невалидный токен!")
 
     def decode_refresh_token(
         self, refresh_token: str, access_token: str

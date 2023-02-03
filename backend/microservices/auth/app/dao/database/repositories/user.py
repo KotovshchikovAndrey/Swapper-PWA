@@ -1,39 +1,11 @@
 import typing as tp
-from abc import ABC, abstractmethod
 
 from databases import Database
 
-from database import postgres
-from database.entities import UserEntity
-from database.models import User
-from database.repositories.base import BaseSqlRepository
-
-
-class UserRepository(ABC):
-    @abstractmethod
-    async def get_by_id(self, id: tp.Union[int, str]) -> tp.Optional[UserEntity]:
-        pass
-
-    @abstractmethod
-    async def create(
-        self,
-        name: str,
-        surname: str,
-        email: str,
-        age: int,
-        password: str,
-        patronymic: tp.Optional[str] = None,
-        phone: tp.Optional[str] = None,
-    ) -> UserEntity:
-        pass
-
-    @abstractmethod
-    async def find_by_email(self, email: str) -> tp.Optional[UserEntity]:
-        pass
-
-    @abstractmethod
-    async def email_exists(self, email: str):
-        pass
+from core.interfaces.repositories import UserRepository
+from dao.database import postgres
+from dao.database.models import User
+from dao.database.repositories.base import BaseSqlRepository
 
 
 class UserPostgreSQLRepository(BaseSqlRepository[User], UserRepository):

@@ -1,37 +1,14 @@
 import typing as tp
-from abc import ABC, abstractmethod
 
 from databases import Database
 
-from database import postgres
-from database.entities import TokenEntity, UserEntity
-from database.models import Token, User
-from database.repositories.base import BaseSqlRepository
+from core.interfaces.repositories import TokenRepository
+from dao.database import postgres
+from dao.database.models import Token, User
+from dao.database.repositories.base import BaseSqlRepository
 
 
-class TokenRepository(ABC):
-    @abstractmethod
-    async def create(self, user_instance: UserEntity, value: str) -> None:
-        pass
-
-    @abstractmethod
-    async def update(
-        self, user_instance: UserEntity, old_value: str, new_value: str
-    ) -> None:
-        pass
-
-    @abstractmethod
-    async def delete(self, user_id: int, token: str) -> None:
-        pass
-
-    @abstractmethod
-    async def find_by_user_id_and_value(
-        self, user_id: int, value: str
-    ) -> tp.Optional[TokenEntity]:
-        pass
-
-
-class TokenPostgreSQLRepository(BaseSqlRepository[tp.Type[Token]], TokenRepository):
+class TokenPostgreSQLRepository(BaseSqlRepository[Token], TokenRepository):
     __db_connection: Database
 
     def __init__(self) -> None:
