@@ -3,9 +3,9 @@ import typing as tp
 from databases import Database
 
 from core.interfaces.repositories import TokenRepository
-from dao.database import postgres
-from dao.database.models import Token, User
-from dao.database.repositories.base import BaseSqlRepository
+from database import postgres
+from database.models import Token, User
+from database.repositories.base import BaseSqlRepository
 
 
 class TokenPostgreSQLRepository(BaseSqlRepository[Token], TokenRepository):

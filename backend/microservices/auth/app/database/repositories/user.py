@@ -3,9 +3,9 @@ import typing as tp
 from databases import Database
 
 from core.interfaces.repositories import UserRepository
-from dao.database import postgres
-from dao.database.models import User
-from dao.database.repositories.base import BaseSqlRepository
+from database import postgres
+from database.models import User
+from database.repositories.base import BaseSqlRepository
 
 
 class UserPostgreSQLRepository(BaseSqlRepository[User], UserRepository):

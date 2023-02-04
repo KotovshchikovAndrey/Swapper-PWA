@@ -3,9 +3,9 @@ import typing as tp
 
 import jwt
 
-from config import AppConfig
+from core.config import AppConfig
 from core.entities import UserEntity
-from dao.database.repositories import TokenRepository
+from core.interfaces.repositories import TokenRepository
 from errors.exceptions.api import ApiError
 
 

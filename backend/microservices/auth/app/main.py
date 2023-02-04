@@ -1,4 +1,4 @@
-from config import AppConfig
+from core.config import AppConfig
 
 AppConfig.load_env_config()
 
@@ -8,9 +8,9 @@ from starlette.middleware.authentication import AuthenticationMiddleware
 from starlette.middleware.cors import CORSMiddleware
 from starlette.routing import Mount
 
-from dao.api.api_v1.routes import routes as api_v1_routes
-from dao.api.middlewares.auth import JwtAuthBackend
-from dao.database import postgres
+from api.api_v1.routes import routes as api_v1_routes
+from api.middlewares.auth import JwtAuthBackend
+from database import postgres
 from errors.handler import handle_error
 
 

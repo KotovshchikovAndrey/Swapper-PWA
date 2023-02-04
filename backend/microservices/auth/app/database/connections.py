@@ -5,7 +5,7 @@ import typing as tp
 import databases
 import sqlalchemy
 
-from config import AppConfig
+from core.config import AppConfig
 
 
 class PostgreSQLConnection:

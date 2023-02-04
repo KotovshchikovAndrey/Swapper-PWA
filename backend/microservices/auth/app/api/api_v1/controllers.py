@@ -5,13 +5,13 @@ from starlette.endpoints import HTTPEndpoint
 from starlette.requests import Request
 from starlette.responses import Response
 
-from dao.database import postgres
-from dao.database.repositories.user import UserPostgreSQLRepository
-from dao.mappers.token import TokenMapper
-from dao.mappers.user import UserMapper
-from domain.services import UserService
+from database import postgres
+from database.repositories.user import UserPostgreSQLRepository
 from errors.exceptions.api import ApiError
+from mappers.token import TokenMapper
+from mappers.user import UserMapper
 from mixins.response import ResponseTokenPairMixin
+from services import UserService
 
 
 class Registration(HTTPEndpoint, ResponseTokenPairMixin):
@@ -48,7 +48,7 @@ class RefreshToken(HTTPEndpoint, ResponseTokenPairMixin):
         refresh_token = self.__get_refresh_token_from_request(request)
         current_user = request.user
 
-        dto = self.__mapper.convert_to_update_token_dto(
+        dto = self.__mapper.convert_to_update_dto(
             user_id=current_user.id,
             access_token=current_user.token,
             refresh_token=refresh_token,

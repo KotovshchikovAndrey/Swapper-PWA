@@ -16,7 +16,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from config import AppConfig
+from core.config import AppConfig
 
 # для коннекта к базе данных
 AppConfig.load_env_config()

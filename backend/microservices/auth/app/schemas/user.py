@@ -1,9 +1,9 @@
 import typing as tp
 
-from marshmallow import Schema, post_load
+from marshmallow import EXCLUDE, Schema, post_load
 
-from dao.schemas.custom_fields.fields import *
 from dto.user import *
+from schemas.custom_fields.fields import *
 
 
 class UserRegisterSchema(Schema):
@@ -15,6 +15,9 @@ class UserRegisterSchema(Schema):
     patronymic = PatronymicField(allow_none=False)
     phone = PhoneField(allow_none=False)
 
+    class Meta:
+        unknown = EXCLUDE  # type: ignore
+
     @post_load
     def to_dto(self, data: tp.Dict[str, tp.Any], **kwargs: tp.Any):
         return UserRegisterDTO(**data)
@@ -24,32 +27,9 @@ class UserLoginSchema(Schema):
     email = EmailField(required=True, allow_none=False)
     password = PasswordField(required=True, allow_none=False)
 
+    class Meta:
+        unknown = EXCLUDE  # type: ignore
+
     @post_load
     def to_dto(self, data: tp.Dict[str, tp.Any], **kwargs: tp.Any):
         return UserLoginDTO(**data)
-
-
-# @dataclass(frozen=True)
-# class UserLoginDTO:
-#     email: str
-#     password: str
-#     confirm_password: str
-
-#     @classmethod
-#     def to_dto(
-#         cls,
-#         email: str,
-#         password: str,
-#         confirm_password: str,
-#     ) -> UserLoginDTO:
-#         return cls(email, password, confirm_password)
-
-
-# @dataclass(frozen=True)
-# class UserLogoutDTO:
-#     id: int
-#     token: str
-
-#     @classmethod
-#     def to_dto(cls, id: int, token: str) -> UserLogoutDTO:
-#         return cls(id, token)

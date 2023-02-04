@@ -2,12 +2,12 @@ import hashlib
 import typing as tp
 
 from core.entities import UserEntity
-from dao.database.repositories import UserRepository
-from dao.database.repositories.token import TokenPostgreSQLRepository
-from domain.services import TokenService
-from dto.token import UpdateTokenDTO
+from core.interfaces.repositories import UserRepository
+from database.repositories.token import TokenPostgreSQLRepository
+from dto.token import TokenUpdateDTO
 from dto.user import *
 from errors.exceptions.api import ApiError
+from services import TokenService
 
 
 class UserService:
@@ -68,7 +68,7 @@ class UserService:
 
         return None
 
-    async def refresh(self, dto: UpdateTokenDTO) -> tp.Tuple[str, str]:
+    async def refresh(self, dto: TokenUpdateDTO) -> tp.Tuple[str, str]:
         user = await self.__repository.get_by_id(id=dto.user_id)
         if user is None:
             raise ApiError.not_found(message="Пользователь не найден!")

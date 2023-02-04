@@ -1,6 +1,6 @@
 from starlette.routing import Route
 
-from dao.api.api_v1 import controllers
+from api.api_v1 import controllers
 
 routes = [
     Route("/registration", controllers.Registration),

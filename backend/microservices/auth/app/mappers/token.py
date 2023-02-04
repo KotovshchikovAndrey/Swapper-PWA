@@ -1,6 +1,6 @@
 import typing as tp
 
-from dto.token import TokenPairDTO, UpdateTokenDTO
+from dto.token import TokenPairDTO, TokenUpdateDTO
 
 
 class TokenMapper:
@@ -9,7 +9,7 @@ class TokenMapper:
         return TokenPairDTO(*data)
 
     @staticmethod
-    def convert_to_update_token_dto(
+    def convert_to_update_dto(
         user_id: int, access_token: str, refresh_token: str
-    ):
-        return UpdateTokenDTO(user_id, access_token, refresh_token)
+    ) -> TokenUpdateDTO:
+        return TokenUpdateDTO(user_id, access_token, refresh_token)

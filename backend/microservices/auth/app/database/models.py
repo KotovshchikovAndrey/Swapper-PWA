@@ -1,7 +1,7 @@
 import ormar
 
 from core import entities
-from dao.database import postgres
+from database import postgres
 from utils.decorators.implementation import Implement
 
 

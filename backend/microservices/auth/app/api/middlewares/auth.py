@@ -4,7 +4,7 @@ import jwt
 from starlette.authentication import AuthCredentials, AuthenticationBackend, BaseUser
 from starlette.requests import HTTPConnection
 
-from config import AppConfig
+from core.config import AppConfig
 from errors.exceptions.api import ApiError
 
 

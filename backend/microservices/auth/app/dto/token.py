@@ -9,7 +9,7 @@ class TokenPairDTO:
 
 
 @dataclass(frozen=True)
-class UpdateTokenDTO:
+class TokenUpdateDTO:
     user_id: int
     access_token: str
     refresh_token: str
