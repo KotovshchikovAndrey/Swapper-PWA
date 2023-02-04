@@ -8,8 +8,8 @@ from starlette.responses import Response
 from database import postgres
 from database.repositories.user import UserPostgreSQLRepository
 from errors.exceptions.api import ApiError
-from mappers.token import TokenMapper
-from mappers.user import UserMapper
+from api.mappers.token import TokenMapper
+from api.mappers.user import UserMapper
 from mixins.response import ResponseTokenPairMixin
 from services import UserService
 

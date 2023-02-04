@@ -1,7 +1,7 @@
 import typing as tp
 
 from dto.user import UserLoginDTO, UserLogoutDTO, UserRegisterDTO
-from schemas.user import UserLoginSchema, UserRegisterSchema
+from api.schemas.user import UserLoginSchema, UserRegisterSchema
 
 
 class UserMapper:

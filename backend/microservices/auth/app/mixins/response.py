@@ -2,7 +2,7 @@ import typing as tp
 
 from starlette.responses import JSONResponse
 
-from mappers.token import TokenMapper
+from api.mappers.token import TokenMapper
 
 
 class ResponseTokenPairMixin:

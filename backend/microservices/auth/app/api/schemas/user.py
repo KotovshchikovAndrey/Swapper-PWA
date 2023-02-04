@@ -3,7 +3,7 @@ import typing as tp
 from marshmallow import EXCLUDE, Schema, post_load
 
 from dto.user import *
-from schemas.custom_fields.fields import *
+from api.schemas.custom_fields.fields import *
 
 
 class UserRegisterSchema(Schema):
