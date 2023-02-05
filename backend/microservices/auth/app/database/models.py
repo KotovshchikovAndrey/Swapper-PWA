@@ -2,7 +2,7 @@ import ormar
 
 from core import entities
 from database import postgres
-from utils.decorators.implementation import Implement
+from utils.implementation import Implement
 
 
 class BaseMeta(ormar.ModelMeta):

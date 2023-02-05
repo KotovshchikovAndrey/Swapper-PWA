@@ -1,4 +1,3 @@
-from marshmallow import ValidationError
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
@@ -10,14 +9,6 @@ async def handle_error(request: Request, exc: Exception):
         return JSONResponse(
             status_code=exc.status,
             content={"message": exc.message, "details": exc.details},
-        )
-    elif isinstance(exc, ValidationError):
-        return JSONResponse(
-            status_code=400,
-            content={
-                "message": "Получены невалидные данные!",
-                "details": [exc.messages_dict],
-            },
         )
 
     print(exc)

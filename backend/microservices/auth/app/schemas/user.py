@@ -1,9 +1,9 @@
-import typing as tp
+# import typing as tp
 
-from marshmallow import EXCLUDE, Schema, post_load
+from marshmallow import EXCLUDE, Schema
 
 from dto.user import *
-from api.schemas.custom_fields.fields import *
+from schemas.fields import *
 
 
 class UserRegisterSchema(Schema):
@@ -18,10 +18,6 @@ class UserRegisterSchema(Schema):
     class Meta:
         unknown = EXCLUDE  # type: ignore
 
-    @post_load
-    def to_dto(self, data: tp.Dict[str, tp.Any], **kwargs: tp.Any):
-        return UserRegisterDTO(**data)
-
 
 class UserLoginSchema(Schema):
     email = EmailField(required=True, allow_none=False)
@@ -29,7 +25,3 @@ class UserLoginSchema(Schema):
 
     class Meta:
         unknown = EXCLUDE  # type: ignore
-
-    @post_load
-    def to_dto(self, data: tp.Dict[str, tp.Any], **kwargs: tp.Any):
-        return UserLoginDTO(**data)

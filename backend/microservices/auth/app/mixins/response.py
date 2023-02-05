@@ -2,12 +2,18 @@ import typing as tp
 
 from starlette.responses import JSONResponse
 
-from api.mappers.token import TokenMapper
+from dto.token import TokenPairDTO
+from utils.mapper import ApiMapper
 
 
 class ResponseTokenPairMixin:
     def _get_response(self, tokens: tp.Tuple[str, str], status: int = 200):
-        dto = TokenMapper.convert_to_token_pair_dto(tokens)
+        access_token, refresh_token = tokens
+        mapper = ApiMapper(dto=TokenPairDTO)
+        dto = mapper.convert_to_dto(
+            {"access_token": access_token, "refresh_token": refresh_token}
+        )
+
         response = JSONResponse(
             status_code=status,
             content={
