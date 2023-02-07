@@ -1,0 +1,49 @@
+.notifications-section {
+    margin-bottom: 200px;
+}
+
+.notifications-conteiner {
+    justify-content: center;
+    align-items: center;
+}
+
+.notifications-section-title {
+    margin-bottom: 0px;
+}
+
+.notifications-text {
+    color: black;
+    font-size: 25px;
+    font-weight: lighter;
+    max-width: 500px;
+    line-height: 1.5;
+    margin-bottom: 45px;
+}
+
+.notify-form {
+    padding-left: 20px;
+    align-items: center;
+}
+
+.notify-label {
+    color: black;
+    margin-right: 25px;
+    font-weight: lighter;
+    font-size: 20px;
+}
+
+.notify-input {
+    border: 0px;
+    border-bottom: 1px solid black;
+    width: 250px;
+    font-size: 20px;
+    padding-left: 10px;
+}
+
+.notify-input:focus {
+    outline: none;
+}
+
+.notifications-img {
+    max-width: 700px;
+}
