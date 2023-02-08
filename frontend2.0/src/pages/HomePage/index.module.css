@@ -1,7 +1,6 @@
 .section_title {
     text-align: center;
     margin-bottom: 100px;
-    font-size: 25px;
     padding: 25px;
     color: black;
     text-indent: 20;
@@ -14,9 +13,6 @@
 .manual_item {
     opacity: 0;
     margin-bottom: 70px;
-}
-
-.manual_item:nth-child(1n) {
     align-self: flex-start;
 }
 
