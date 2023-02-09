@@ -6,7 +6,8 @@
       "@pages": ["pages"],
       "@services": ["services"],
       "@utils": ["utils"],
-      "@enities": ["enities"]
+      "@enities": ["enities"],
+      "@assets": ["assets"],
     },
     "target": "es5",
     "lib": [
