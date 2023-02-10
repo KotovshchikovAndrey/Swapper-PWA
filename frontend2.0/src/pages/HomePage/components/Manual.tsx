@@ -2,11 +2,11 @@
 import styles from "../index.module.css"
 import React from "react"
 import { Stack, Container, List, ListItem, Box, Typography } from "@mui/material"
-import { FadeInItemsAnimation } from "utils/animations/fade"
+import { OnScrollFadeInAnimation } from "utils/animations/fade"
 
 export default function Manual() {
   React.useEffect(() => {
-    const clearFunc = FadeInItemsAnimation(styles.manual_item)
+    const clearFunc = OnScrollFadeInAnimation(styles.manual_item)
     return clearFunc
   }, [])
 

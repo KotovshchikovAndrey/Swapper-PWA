@@ -2,8 +2,14 @@
 import styles from "../index.module.css"
 import React from "react"
 import { Typography, List, ListItem, ListItemAvatar, Avatar, ListItemText } from "@mui/material"
+import { OnScrollFadeInAnimation, FadeType } from "utils/animations/fade"
 
 export default function Abilities() {
+  React.useEffect(() => {
+    const clearFunc = OnScrollFadeInAnimation(styles.ability_item, FadeType.IN_RIGHT)
+    return clearFunc
+  }, [])
+
   return (
     <React.Fragment>
       <Typography className={styles.section_title} fontSize="25px" marginBottom="50px">
@@ -18,7 +24,10 @@ export default function Abilities() {
           alignItems: "center",
         }}
       >
-        <ListItem sx={{ maxWidth: "900px", marginBottom: "70px", marginRight: 30 }}>
+        <ListItem
+          className={styles.ability_item}
+          sx={{ maxWidth: "900px", marginBottom: "70px", marginRight: 30 }}
+        >
           <ListItemAvatar
             sx={{
               marginRight: "20px",
@@ -49,7 +58,10 @@ export default function Abilities() {
             }
           />
         </ListItem>
-        <ListItem sx={{ maxWidth: "900px", marginBottom: "70px", marginLeft: 30 }}>
+        <ListItem
+          className={styles.ability_item}
+          sx={{ maxWidth: "900px", marginBottom: "70px", marginLeft: 30 }}
+        >
           <ListItemText
             primary="Легкость и Простота!"
             primaryTypographyProps={{
@@ -80,7 +92,10 @@ export default function Abilities() {
             />
           </ListItemAvatar>
         </ListItem>
-        <ListItem sx={{ maxWidth: "900px", marginBottom: "70px", marginRight: 30 }}>
+        <ListItem
+          className={styles.ability_item}
+          sx={{ maxWidth: "900px", marginBottom: "70px", marginRight: 30 }}
+        >
           <ListItemAvatar
             sx={{
               marginRight: "20px",

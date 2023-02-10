@@ -1,5 +1,3 @@
-// //@ts-ignore
-// import "./index.module.css"
 import React from "react"
 import Header from "./components/Header"
 import Manual from "./components/Manual"

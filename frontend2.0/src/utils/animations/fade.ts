@@ -2,15 +2,24 @@
 import animations from "./Animations.module.css"
 import "animate.css"
 
-export const FadeInItemsAnimation = (itemsClassName: string) => {
-  const manualItems = document.querySelectorAll(`.${itemsClassName}`)
-  const scrollHandler = () => {
-    manualItems.forEach((element: Element, index: number) => {
-      const elementPosition = element.getBoundingClientRect().top + window.scrollY
-      if (elementPosition - 800 < window.scrollY) {
-        element.classList.add(
+export enum FadeType {
+  IN_RIGHT = "animate__fadeInRightBig",
+  IN_LEFT = "animate__fadeInLeftBig",
+}
+
+export function OnScrollFadeInAnimation(
+  itemsClassName: string,
+  fadeType: FadeType = FadeType.IN_LEFT
+) {
+  const items = document.querySelectorAll(`.${itemsClassName}`)
+
+  const scrollHandler = (entries: any) => {
+    console.log(entries)
+    entries.forEach((entry: any) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add(
           "animate__animated",
-          index % 2 === 0 ? "animate__fadeInLeftBig" : "animate__fadeInRightBig",
+          fadeType,
           "animate__slow",
           animations.visible
         )
@@ -18,9 +27,14 @@ export const FadeInItemsAnimation = (itemsClassName: string) => {
     })
   }
 
-  window.onscroll = scrollHandler
+  const observer = new IntersectionObserver(scrollHandler)
+  for (let i = 0; i < items.length; i++) {
+    observer.observe(items[i])
+  }
 
   return () => {
-    window.onscroll = () => {}
+    for (let i = 0; i < items.length; i++) {
+      observer.unobserve(items[i])
+    }
   }
 }

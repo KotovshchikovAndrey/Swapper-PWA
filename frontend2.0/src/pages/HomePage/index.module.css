@@ -20,6 +20,10 @@
     align-self: flex-end;
 }
 
+.ability_item {
+    opacity: 0;
+}
+
 @-webkit-keyframes rainbow {
     0% {
         background-position: 0% 50%
