@@ -11,8 +11,9 @@ export default function Notification() {
         alignItems="center"
         justifyContent="center"
         padding="100px"
+        paddingBottom="0"
         sx={{
-          backgroundColor: "#00BFFF",
+          backgroundColor: "#1E90FF",
         }}
       >
         <Box component="img" src={email} maxWidth="330px" marginRight="170px" />

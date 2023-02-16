@@ -14,7 +14,6 @@ export function OnScrollFadeInAnimation(
   const items = document.querySelectorAll(`.${itemsClassName}`)
 
   const scrollHandler = (entries: any) => {
-    console.log(entries)
     entries.forEach((entry: any) => {
       if (entry.isIntersecting) {
         entry.target.classList.add(

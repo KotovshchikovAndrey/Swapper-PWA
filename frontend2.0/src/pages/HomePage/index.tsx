@@ -3,6 +3,7 @@ import Header from "./components/Header"
 import Manual from "./components/Manual"
 import Abilities from "./components/Abilities"
 import Notification from "./components/Notification"
+import Footer from "components/layout/Footer"
 
 export default function HomePage() {
   return (
@@ -11,6 +12,7 @@ export default function HomePage() {
       <Manual />
       <Abilities />
       <Notification />
+      <Footer />
     </React.Fragment>
   )
 }

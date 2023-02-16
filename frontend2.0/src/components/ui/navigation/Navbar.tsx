@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "react-router-dom"
 import { AppBar, Toolbar, Typography, Stack, Button } from "@mui/material"
 
 export default function Navbar() {
@@ -20,7 +21,15 @@ export default function Navbar() {
           </Button>
         </Stack>
         <Button size="small" color={"info"} sx={{ color: "white" }}>
-          регистрация / авторизация
+          <Link
+            to="/auth"
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+            }}
+          >
+            Регистрация / Авторизация
+          </Link>
         </Button>
       </Toolbar>
     </AppBar>
