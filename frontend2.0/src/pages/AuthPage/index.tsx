@@ -1,5 +1,13 @@
 import React from "react"
+import AuthSection from "./components/AuthSection"
+import AuthForm from "components/shared/user/Authorization/AuthForm"
 
 export default function AuthPage() {
-  return <div>Auth</div>
+  return (
+    <React.Fragment>
+      <AuthSection>
+        <AuthForm />
+      </AuthSection>
+    </React.Fragment>
+  )
 }

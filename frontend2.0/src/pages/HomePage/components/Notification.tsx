@@ -10,8 +10,7 @@ export default function Notification() {
         flexDirection="row"
         alignItems="center"
         justifyContent="center"
-        padding="100px"
-        paddingBottom="0"
+        padding="50px"
         sx={{
           backgroundColor: "#1E90FF",
         }}

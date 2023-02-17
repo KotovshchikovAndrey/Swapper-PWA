@@ -12,8 +12,8 @@ export default function Footer() {
       <footer className="text-center text-white" style={{ backgroundColor: "DodgerBlue" }}>
         <div className="container">
           <section>
-            <div className="row text-center d-flex justify-content-center pt-5">
-              <hr className="my-5" />
+            <div className="row text-center d-flex justify-content-center">
+              <hr style={{ marginBottom: "54px" }} />
               <div className="col-md-2">
                 <h6 className="text-uppercase font-weight-bold">
                   <a href="#!" className="text-white">
