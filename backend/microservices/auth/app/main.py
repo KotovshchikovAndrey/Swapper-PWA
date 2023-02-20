@@ -1,7 +1,3 @@
-from core.config import AppConfig
-
-AppConfig.load_env_config()
-
 from starlette.applications import Starlette
 from starlette.middleware import Middleware
 from starlette.middleware.authentication import AuthenticationMiddleware
@@ -10,16 +6,16 @@ from starlette.routing import Mount
 
 from api.api_v1.routes import routes as api_v1_routes
 from api.middlewares.auth import JwtAuthBackend
-from database import postgres
+from database.connections import postgres_db
 from errors.handler import handle_error
 
 
 async def startup() -> None:
-    await postgres.connect()
+    await postgres_db.connect()
 
 
 async def shutdown() -> None:
-    await postgres.disconnect()
+    await postgres_db.disconnect()
 
 
 routes = [Mount("/api/v1/auth", name="", routes=api_v1_routes)]

@@ -4,7 +4,8 @@ import jwt
 from starlette.authentication import AuthCredentials, AuthenticationBackend, BaseUser
 from starlette.requests import HTTPConnection
 
-from core.config import AppConfig
+# from core.config import AppConfig
+from core import config
 from errors.exceptions.api import ApiError
 
 
@@ -41,7 +42,7 @@ class JwtAuthBackend(AuthenticationBackend):
     def __decode_access_token(self, token: str) -> tp.Dict[str, tp.Any]:
         payload = jwt.decode(  # type: ignore
             jwt=token,
-            key=AppConfig.get_secret_key(),
+            key=config.SECTRET_KEY,  # type: ignore
             algorithms=["HS256"],
         )
 

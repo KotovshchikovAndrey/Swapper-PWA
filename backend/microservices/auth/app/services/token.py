@@ -3,17 +3,20 @@ import typing as tp
 
 import jwt
 
-from core.config import AppConfig
+from core import config
+from core.dependencies import injector
 from core.entities import UserEntity
 from core.interfaces.repositories import TokenRepository
 from errors.exceptions.api import ApiError
 
 
+@injector.register(name="TokenService")  # type: ignore
 class TokenService:
-    __repository: TokenRepository
+    repository: TokenRepository
 
+    @injector.inject("TokenRepository")  # type: ignore
     def __init__(self, repository: TokenRepository) -> None:
-        self.__repository = repository
+        self.repository = repository
 
     async def create_token_pair(
         self, user: UserEntity, payload: tp.Dict[str, tp.Any]
@@ -21,7 +24,7 @@ class TokenService:
         access_token = self.__generate_access_token(payload)
         access_token_part = self.__get_access_token_part(access_token)
         refresh_token = self.__generate_refresh_token(payload, access_token_part)
-        await self.__repository.create(user, value=refresh_token)
+        await self.repository.create(user, value=refresh_token)
 
         return access_token, refresh_token
 
@@ -32,7 +35,7 @@ class TokenService:
         access_token_part = self.__get_access_token_part(new_access_token)
         new_refresh_token = self.__generate_refresh_token(payload, access_token_part)
 
-        await self.__repository.update(
+        await self.repository.update(
             user_instance=user,
             old_value=old_refresh_token,
             new_value=new_refresh_token,
@@ -41,7 +44,7 @@ class TokenService:
         return new_access_token, new_refresh_token
 
     async def check_token_in_db(self, user_id: int, token: str) -> bool:
-        token_in_db = await self.__repository.find_by_user_id_and_value(
+        token_in_db = await self.repository.find_by_user_id_and_value(
             user_id, value=token
         )
         if token_in_db is not None:
@@ -56,7 +59,7 @@ class TokenService:
         try:
             payload = jwt.decode(  # type: ignore
                 jwt=refresh_token,
-                key=AppConfig.get_secret_key() + access_token_part,
+                key=config.SECTRET_KEY + access_token_part,  # type: ignore
                 algorithms=["HS256"],
             )
 
@@ -65,7 +68,7 @@ class TokenService:
             raise ApiError.forbidden(message="Невалидный токен!")
 
     async def remove_token_from_db(self, user_id: int, token: str) -> None:
-        await self.__repository.delete(user_id, token)
+        await self.repository.delete(user_id, token)
 
     def __generate_access_token(self, payload: tp.Dict[str, tp.Any]) -> str:
         access_payload = {
@@ -76,7 +79,7 @@ class TokenService:
 
         token = jwt.encode(
             payload=access_payload,
-            key=AppConfig.get_secret_key(),
+            key=config.SECTRET_KEY,  # type: ignore
             algorithm="HS256",
         )
 
@@ -93,7 +96,7 @@ class TokenService:
 
         token = jwt.encode(
             payload=refresh_payload,
-            key=AppConfig.get_secret_key() + access_token_part,
+            key=config.SECTRET_KEY + access_token_part,  # type: ignore
             algorithm="HS256",
         )
 

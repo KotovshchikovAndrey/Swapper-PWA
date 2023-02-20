@@ -13,11 +13,8 @@ class UserRepository(ABC):
     async def create(
         self,
         name: str,
-        surname: str,
         email: str,
-        age: int,
         password: str,
-        patronymic: tp.Optional[str] = None,
         phone: tp.Optional[str] = None,
     ) -> UserEntity:
         pass

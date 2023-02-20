@@ -1,9 +1,8 @@
-# import typing as tp
+import typing as tp
 from dataclasses import dataclass
 
 
-@dataclass(frozen=True)
-class TokenPairDTO:
+class TokenPairDTO(tp.TypedDict):
     access_token: str
     refresh_token: str
 

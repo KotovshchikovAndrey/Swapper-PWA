@@ -1,16 +1,27 @@
 import typing as tp
 from dataclasses import dataclass
 
+from dto.token import TokenPairDTO
+
+
+class UserDTO(tp.TypedDict):
+    id: int
+    name: str
+    email: str
+    phone: tp.Optional[str]
+
+
+@dataclass(frozen=True)
+class UserResponseDTO:
+    user: UserDTO
+    tokens: TokenPairDTO
+
 
 @dataclass(frozen=True)
 class UserRegisterDTO:
     name: str
-    surname: str
     email: str
-    age: int
     password: str
-    patronymic: tp.Optional[str] = None
-    phone: tp.Optional[str] = None
 
 
 @dataclass(frozen=True)

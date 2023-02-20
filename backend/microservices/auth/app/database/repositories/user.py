@@ -1,19 +1,17 @@
 import typing as tp
 
-from databases import Database
-
 from core.interfaces.repositories import UserRepository
-from database import postgres
+from database.connections.postgres import PostgreSQLConnection
 from database.models import User
 from database.repositories.base import BaseSqlRepository
 
 
 class UserPostgreSQLRepository(BaseSqlRepository[User], UserRepository):
-    __db_connection: Database
+    __db_connection: PostgreSQLConnection
 
-    def __init__(self) -> None:
+    def __init__(self, db_connection: PostgreSQLConnection) -> None:
         super().__init__(model=User)
-        self.__db_connection = postgres.database
+        self.__db_connection = db_connection
 
     async def get_by_id(self, id: tp.Union[int, str]) -> tp.Optional[User]:  # type: ignore
         return await super().get_by_id(id=id)
@@ -21,19 +19,13 @@ class UserPostgreSQLRepository(BaseSqlRepository[User], UserRepository):
     async def create(  # type: ignore
         self,
         name: str,
-        surname: str,
         email: str,
-        age: int,
         password: str,
-        patronymic: tp.Optional[str] = None,
         phone: tp.Optional[str] = None,
     ) -> User:
         created_user = await self._model.objects.create(
             name=name,
-            surname=surname,
-            patronymic=patronymic,
             email=email,
-            age=age,
             phone=phone,
             password=password,
         )

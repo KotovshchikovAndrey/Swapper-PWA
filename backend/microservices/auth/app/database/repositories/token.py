@@ -1,19 +1,17 @@
 import typing as tp
 
-from databases import Database
-
 from core.interfaces.repositories import TokenRepository
-from database import postgres
+from database.connections.postgres import PostgreSQLConnection
 from database.models import Token, User
 from database.repositories.base import BaseSqlRepository
 
 
 class TokenPostgreSQLRepository(BaseSqlRepository[Token], TokenRepository):
-    __db_connection: Database
+    __db_connection: PostgreSQLConnection
 
-    def __init__(self) -> None:
+    def __init__(self, db_connection: PostgreSQLConnection) -> None:
         super().__init__(model=Token)
-        self.__db_connection = postgres.database
+        self.__db_connection = db_connection
 
     async def create(self, user_instance: User, value: str) -> None:  # type: ignore
         await self._model.objects.create(user=user_instance, value=value)
