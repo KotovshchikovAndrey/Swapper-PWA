@@ -1,6 +1,7 @@
 import typing as tp
 
 from core.interfaces.repositories import UserRepository
+from database.connections import postgres_db
 from database.connections.postgres import PostgreSQLConnection
 from database.models import User
 from database.repositories.base import BaseSqlRepository
@@ -9,7 +10,7 @@ from database.repositories.base import BaseSqlRepository
 class UserPostgreSQLRepository(BaseSqlRepository[User], UserRepository):
     __db_connection: PostgreSQLConnection
 
-    def __init__(self, db_connection: PostgreSQLConnection) -> None:
+    def __init__(self, db_connection: PostgreSQLConnection = postgres_db) -> None:
         super().__init__(model=User)
         self.__db_connection = db_connection
 

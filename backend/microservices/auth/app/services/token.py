@@ -4,13 +4,13 @@ import typing as tp
 import jwt
 
 from core import config
-from core.dependencies import injector
+from utils.injector import injector
+
 from core.entities import UserEntity
 from core.interfaces.repositories import TokenRepository
 from errors.exceptions.api import ApiError
 
 
-@injector.register(name="TokenService")  # type: ignore
 class TokenService:
     repository: TokenRepository
 
@@ -21,9 +21,9 @@ class TokenService:
     async def create_token_pair(
         self, user: UserEntity, payload: tp.Dict[str, tp.Any]
     ) -> tp.Tuple[str, str]:
-        access_token = self.__generate_access_token(payload)
-        access_token_part = self.__get_access_token_part(access_token)
-        refresh_token = self.__generate_refresh_token(payload, access_token_part)
+        access_token = self.generate_access_token(payload)
+        access_token_part = self.get_access_token_part(access_token)
+        refresh_token = self.generate_refresh_token(payload, access_token_part)
         await self.repository.create(user, value=refresh_token)
 
         return access_token, refresh_token
@@ -31,9 +31,9 @@ class TokenService:
     async def update_token_pair(
         self, user: UserEntity, payload: tp.Dict[str, tp.Any], old_refresh_token: str
     ) -> tp.Tuple[str, str]:
-        new_access_token = self.__generate_access_token(payload)
-        access_token_part = self.__get_access_token_part(new_access_token)
-        new_refresh_token = self.__generate_refresh_token(payload, access_token_part)
+        new_access_token = self.generate_access_token(payload)
+        access_token_part = self.get_access_token_part(new_access_token)
+        new_refresh_token = self.generate_refresh_token(payload, access_token_part)
 
         await self.repository.update(
             user_instance=user,
@@ -55,7 +55,7 @@ class TokenService:
     def decode_refresh_token(
         self, refresh_token: str, access_token: str
     ) -> tp.Dict[str, tp.Any]:
-        access_token_part = self.__get_access_token_part(access_token)
+        access_token_part = self.get_access_token_part(access_token)
         try:
             payload = jwt.decode(  # type: ignore
                 jwt=refresh_token,
@@ -70,7 +70,7 @@ class TokenService:
     async def remove_token_from_db(self, user_id: int, token: str) -> None:
         await self.repository.delete(user_id, token)
 
-    def __generate_access_token(self, payload: tp.Dict[str, tp.Any]) -> str:
+    def generate_access_token(self, payload: tp.Dict[str, tp.Any]) -> str:
         access_payload = {
             **payload,
             "exp": datetime.datetime.now(tz=datetime.timezone.utc)
@@ -85,7 +85,7 @@ class TokenService:
 
         return token
 
-    def __generate_refresh_token(
+    def generate_refresh_token(
         self, payload: tp.Dict[str, tp.Any], access_token_part: str
     ) -> str:
         refresh_payload = {
@@ -102,9 +102,14 @@ class TokenService:
 
         return token
 
-    def __get_access_token_part(self, access_token: str) -> str:
-        token_length = len(access_token)
-        start_slice = token_length // 3
-        end_slice = token_length // 2
+    def get_access_token_part(self, access_token: str) -> str:
+        signature = access_token.split(".")[-1]
+        signature_length = len(signature)
 
-        return access_token[start_slice:end_slice]
+        # индекс начала среза
+        start_slice = signature_length // 3
+
+        # индекс конца среза
+        end_slice = signature_length // 2
+
+        return signature[start_slice:end_slice]

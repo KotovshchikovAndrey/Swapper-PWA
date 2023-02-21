@@ -5,10 +5,9 @@ from starlette.endpoints import HTTPEndpoint
 from starlette.requests import Request
 from starlette.responses import Response
 
-from core.dependencies import injector
+from utils.injector import injector
 from database.connections import postgres_db
 
-# from database.repositories.user import UserPostgreSQLRepository
 from dto import token as token_dto
 from dto import user as user_dto
 from errors.exceptions.api import ApiError
@@ -45,7 +44,7 @@ class Login(HTTPEndpoint, UserResponseMixin):
         dto = self.mapper.convert_to_dto(await request.json())
         user, access_token, refresh_token = await service.login(dto)
 
-        return self.get_user_response(user, access_token, refresh_token)
+        return self.get_user_response(user, access_token, refresh_token, status=200)
 
 
 class Refresh(HTTPEndpoint, UserResponseMixin):
@@ -66,7 +65,7 @@ class Refresh(HTTPEndpoint, UserResponseMixin):
 
         user, access_token, refresh_token = await service.refresh(dto)
 
-        return self.get_user_response(user, access_token, refresh_token)
+        return self.get_user_response(user, access_token, refresh_token, status=200)
 
     def get_refresh_token_from_request(self, request: Request):
         refresh_token = request.cookies.get("refresh_token", None)

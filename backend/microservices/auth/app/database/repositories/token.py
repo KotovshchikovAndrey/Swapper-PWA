@@ -1,6 +1,7 @@
 import typing as tp
 
 from core.interfaces.repositories import TokenRepository
+from database.connections import postgres_db
 from database.connections.postgres import PostgreSQLConnection
 from database.models import Token, User
 from database.repositories.base import BaseSqlRepository
@@ -9,7 +10,7 @@ from database.repositories.base import BaseSqlRepository
 class TokenPostgreSQLRepository(BaseSqlRepository[Token], TokenRepository):
     __db_connection: PostgreSQLConnection
 
-    def __init__(self, db_connection: PostgreSQLConnection) -> None:
+    def __init__(self, db_connection: PostgreSQLConnection = postgres_db) -> None:
         super().__init__(model=Token)
         self.__db_connection = db_connection
 

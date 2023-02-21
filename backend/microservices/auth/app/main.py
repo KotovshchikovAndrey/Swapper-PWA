@@ -4,6 +4,9 @@ from starlette.middleware.authentication import AuthenticationMiddleware
 from starlette.middleware.cors import CORSMiddleware
 from starlette.routing import Mount
 
+# dependencies settings
+from core import dependencies  # type: ignore
+
 from api.api_v1.routes import routes as api_v1_routes
 from api.middlewares.auth import JwtAuthBackend
 from database.connections import postgres_db

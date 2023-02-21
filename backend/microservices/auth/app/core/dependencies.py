@@ -1,14 +1,26 @@
-# import typing as tp
-from database.connections import postgres_db
+# dependencies settings
+from utils.injector import injector
+
+
+# TokenRepository
 from database.repositories.token import TokenPostgreSQLRepository
+
+injector.register("TokenRepository")(TokenPostgreSQLRepository)
+
+
+# UserRepository
 from database.repositories.user import UserPostgreSQLRepository
-from utils.injector import Injector
 
-__all__ = ("injector",)
+injector.register("UserRepository")(UserPostgreSQLRepository)
 
-dependencies = {
-    "UserRepository": UserPostgreSQLRepository(db_connection=postgres_db),
-    "TokenRepository": TokenPostgreSQLRepository(db_connection=postgres_db),
-}
 
-injector = Injector(dependencies)
+# TokenService
+from services.token import TokenService
+
+injector.register("TokenService")(TokenService)
+
+
+# UserService
+from services.user import UserService
+
+injector.register("UserService")(UserService)

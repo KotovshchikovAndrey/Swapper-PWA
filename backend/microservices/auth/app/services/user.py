@@ -1,7 +1,7 @@
 import hashlib
 import typing as tp
 
-from core.dependencies import injector
+from utils.injector import injector
 from core.entities import UserEntity
 from core.interfaces.repositories import UserRepository
 from dto.token import TokenUpdateDTO
@@ -10,7 +10,6 @@ from errors.exceptions.api import ApiError
 from services.token import TokenService
 
 
-@injector.register("UserService")
 class UserService:
     repository: UserRepository
     token_service: TokenService
@@ -30,14 +29,14 @@ class UserService:
         if email_exists:
             raise ApiError.bad_request("Пользователь с таким email уже существует!")
 
-        password_hash = self.__get_password_hash(password=dto.password)
+        password_hash = self.get_password_hash(password=dto.password)
         created_user = await self.repository.create(
             name=dto.name,
             email=dto.email,
             password=password_hash,
         )
 
-        access_token, refresh_token = await self.__get_token_pair(
+        access_token, refresh_token = await self.get_token_pair(
             user=created_user,
             payload={
                 "id": created_user.id,
@@ -53,7 +52,7 @@ class UserService:
         if user_in_db is None:
             raise ApiError.unauthorized(message="Неверный логин или пароль")
 
-        access_token, refresh_token = await self.__get_token_pair(
+        access_token, refresh_token = await self.get_token_pair(
             user=user_in_db,
             payload={
                 "id": user_in_db.id,
@@ -67,7 +66,7 @@ class UserService:
     async def authenticate(self, email: str, password: str) -> tp.Optional[UserEntity]:
         user = await self.repository.find_by_email(email)
         if user is not None:
-            password_hash = self.__get_password_hash(password)
+            password_hash = self.get_password_hash(password)
             if password_hash == user.password:
                 return user
 
@@ -78,7 +77,7 @@ class UserService:
         if user is None:
             raise ApiError.not_found(message="Пользователь не найден!")
 
-        new_access_token, new_refresh_token = await self.__update_token_pair(
+        new_access_token, new_refresh_token = await self.update_token_pair(
             user=user,
             access_token=dto.access_token,
             refresh_token=dto.refresh_token,
@@ -89,7 +88,7 @@ class UserService:
     async def logout(self, dto: UserLogoutDTO) -> None:
         await self.token_service.remove_token_from_db(dto.id, dto.refresh_token)
 
-    async def __update_token_pair(
+    async def update_token_pair(
         self, user: UserEntity, access_token: str, refresh_token: str
     ) -> tp.Tuple[str, str]:
         payload = self.token_service.decode_refresh_token(
@@ -107,7 +106,7 @@ class UserService:
 
         return await self.token_service.update_token_pair(user, payload, refresh_token)
 
-    async def __get_token_pair(
+    async def get_token_pair(
         self, user: UserEntity, payload: tp.Dict[str, tp.Any]
     ) -> tp.Tuple[str, str]:
         access_token, refresh_token = await self.token_service.create_token_pair(
@@ -117,5 +116,5 @@ class UserService:
 
         return access_token, refresh_token
 
-    def __get_password_hash(self, password: str):
+    def get_password_hash(self, password: str):
         return hashlib.sha256(password.encode()).hexdigest()
