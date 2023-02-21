@@ -1,18 +1,10 @@
 import React from "react"
-import Navbar from "components/ui/navigation/Navbar"
 
 interface AuthSectionProps extends React.PropsWithChildren {}
 
 export default function AuthSection(props: AuthSectionProps) {
   return (
-    <section
-      className="vh-100 bg-image"
-      style={{
-        backgroundImage:
-          "url('https://images.wallpaperscraft.ru/image/single/gradient_raznotsvetnyj_abstraktsiia_204077_3840x2400.jpg')",
-      }}
-    >
-      <Navbar />
+    <section className="vh-100 bg-image">
       <div
         className="mask d-flex align-items-center h-100 gradient-custom-3"
         style={{

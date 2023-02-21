@@ -4,6 +4,7 @@ import React from "react"
 
 interface AuthButtonProps {
   text: string
+  // onSubmit: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 export default function AuthButton(props: AuthButtonProps) {
@@ -11,8 +12,9 @@ export default function AuthButton(props: AuthButtonProps) {
     <React.Fragment>
       <div className="d-flex justify-content-center">
         <button
-          type="button"
+          type="submit"
           className={`btn btn-success btn-block btn-lg gradient-custom-4 text-body ${styles.auth_button}`}
+          // onSubmit={props.onSubmit}
         >
           {props.text}
         </button>
