@@ -1,23 +1,24 @@
-import { AlertTitle } from "@mui/material"
+import { AlertTitle, Input, Stack } from "@mui/material"
 import React from "react"
 
 interface AuthInputProps {
   label: string
+  value: string
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  value: any
 }
 
 export default function AuthInput(props: AuthInputProps) {
   return (
     <React.Fragment>
-      <div className="form-outline mb-4">
-        <input
-          type="text"
-          className="form-control form-control-lg"
+      <Stack marginBottom="30px">
+        <Input
+          placeholder={props.label}
           value={props.value}
           onChange={props.onChange}
+          sx={{
+            fontSize: "17px",
+          }}
         />
-        <label className="form-label">{props.label}</label>
         <AlertTitle
           hidden={true}
           color="red"
@@ -29,7 +30,7 @@ export default function AuthInput(props: AuthInputProps) {
         >
           Неверное email или пароль!
         </AlertTitle>
-      </div>
+      </Stack>
     </React.Fragment>
   )
 }

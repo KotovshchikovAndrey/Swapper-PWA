@@ -1,8 +1,11 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import { AppBar, Toolbar, Typography, Stack, Button } from "@mui/material"
+import { useTypedSelector } from "hooks/redux"
 
 export default function Navbar() {
+  const { isAuth } = useTypedSelector((state) => state.user.value)
+
   return (
     <AppBar sx={{ backgroundColor: "rgb(89, 242, 191)", boxShadow: "none", padding: 0.5 }}>
       <Toolbar sx={{ justifyContent: "space-between", alignItems: "center" }}>
@@ -44,7 +47,7 @@ export default function Navbar() {
               color: "inherit",
             }}
           >
-            Регистрация / Авторизация
+            {!isAuth ? `Регистрация / Авторизация` : `Выйти`}
           </Link>
         </Button>
       </Toolbar>

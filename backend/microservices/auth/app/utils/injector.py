@@ -22,8 +22,6 @@ class Injector:
         self.__dependencies = dependencies
 
     def register(self, name: str):
-        print(name, 11111111111)
-
         def decorator(dependency: T) -> T:
             dependency_instance = dependency()
             self.__dependencies[name] = dependency_instance
@@ -33,8 +31,6 @@ class Injector:
         return decorator
 
     def inject(self, name: str):
-        dependency = self.__dependencies[name]
-
         def decorator(func: tp.Callable):
             def sync_wrapper(*args, **kwargs) -> tp.Any:
                 dependency = self.__dependencies[name]

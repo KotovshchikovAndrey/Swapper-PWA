@@ -1,6 +1,7 @@
 import typing as tp
 
 from marshmallow import fields
+from marshmallow.validate import Length
 from marshmallow.exceptions import ValidationError
 
 from utils.validators import *
@@ -14,10 +15,12 @@ class NameField(fields.String):
     }
 
     def _deserialize(self, value: str, *args: tp.Any, **kwargs: tp.Any):
-        valiadator = MaxLengthValidator(100)
-        is_valid = valiadator.validate(value)
-        if not is_valid:
-            raise ValidationError("Поле name не должно превышать 100 символов!")
+        validate_name_length = Length(
+            min=1,
+            max=100,
+            error="Поле name должно быть длиной от 1 до 100 символов",
+        )
+        validate_name_length(value)
 
         return value
 
@@ -30,10 +33,12 @@ class SurnameField(fields.String):
     }
 
     def _deserialize(self, value: str, *args: tp.Any, **kwargs: tp.Any):
-        valiadator = MaxLengthValidator(100)
-        is_valid = valiadator.validate(value)
-        if not is_valid:
-            raise ValidationError("Поле surname не должно превышать 100 символов!")
+        validate_surname_length = Length(
+            min=1,
+            max=100,
+            error="Поле surname не должно превышать 100 символов!",
+        )
+        validate_surname_length(value)
 
         return value
 
