@@ -10,9 +10,9 @@ export default function Notification() {
         flexDirection="row"
         alignItems="center"
         justifyContent="center"
-        padding="50px"
+        padding="30px"
         sx={{
-          backgroundColor: "#1E90FF",
+          backgroundColor: "Turquoise",
         }}
       >
         <Box component="img" src={email} maxWidth="330px" marginRight="170px" />

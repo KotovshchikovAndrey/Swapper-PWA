@@ -5,7 +5,7 @@ import Abilities from "./components/Abilities"
 import Notification from "./components/Notification"
 import Footer from "components/layout/Footer"
 
-export default function HomePage() {
+export default function Home() {
   return (
     <React.Fragment>
       <Header />

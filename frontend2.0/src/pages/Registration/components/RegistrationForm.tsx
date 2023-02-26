@@ -1,17 +1,18 @@
 import React from "react"
-import AuthInput from "./AuthInput"
+import AuthInput from "components/shared/user/authorization/AuthInput"
 import AuthButton from "components/shared/user/authorization/AuthBotton"
 import AgreeCheckbox from "components/ui/checkbox/AgreeCheckbox"
 import { Alert } from "@mui/material"
-import { useTypedDispatch, useTypedSelector } from "hooks/redux"
+import { useTypedDispatch } from "hooks/redux"
 import { authActions } from "store/reducers/user"
+import { Link, useNavigate } from "react-router-dom"
 
 import AuthService from "services/auth"
 
-export default function AuthForm() {
+export default function RegistrationForm() {
+  const navigate = useNavigate()
   const dispatch = useTypedDispatch()
 
-  const [isSuccess, setIsSuccess] = React.useState<boolean>(false)
   const [isValid, setIsValid] = React.useState<boolean>(true)
   const [errorMessages, setErrorMessages] = React.useState<string[]>([])
   const [name, setName] = React.useState<string>("")
@@ -29,30 +30,20 @@ export default function AuthForm() {
     })
 
     if (!user) {
-      console.log(authService.errors)
       setIsValid(false)
       setErrorMessages(authService.errors)
 
       return
     }
 
-    setIsValid(true)
-    setIsSuccess(true)
     dispatch(authActions.setIsAuth(true))
     dispatch(authActions.setUser(user))
+
+    navigate("/")
   }
 
   return (
     <React.Fragment>
-      <Alert
-        severity="success"
-        hidden={!isSuccess}
-        sx={{
-          marginBottom: 3,
-        }}
-      >
-        Вы успешно зарегистрировались!
-      </Alert>
       <Alert
         severity="error"
         hidden={isValid}
@@ -83,8 +74,22 @@ export default function AuthForm() {
           onChange={(event) => setPassword(event.target.value)}
         />
 
-        <AgreeCheckbox text="I agree all statements in" agreementLink="Terms of service" />
+        <AgreeCheckbox
+          text="Я ознакомлен и согласен с"
+          agreementLink="Пользовательским соглашением"
+        />
         <AuthButton text="Создать Аккаунт" />
+        <Link to="/login">
+          <a
+            style={{
+              display: "block",
+              marginTop: "20px",
+              textAlign: "right",
+            }}
+          >
+            Уже зарегистрированы?
+          </a>
+        </Link>
       </form>
     </React.Fragment>
   )

@@ -9,11 +9,11 @@ import React from "react"
 export default function Footer() {
   return (
     <React.Fragment>
-      <footer className="text-center text-white" style={{ backgroundColor: "DodgerBlue" }}>
+      <footer className="text-center text-white" style={{ backgroundColor: "Turquoise" }}>
         <div className="container">
           <section>
             <div className="row text-center d-flex justify-content-center">
-              <hr style={{ marginBottom: "54px" }} />
+              <hr className="my-4" />
               <div className="col-md-2">
                 <h6 className="text-uppercase font-weight-bold">
                   <a href="#!" className="text-white">
@@ -51,8 +51,8 @@ export default function Footer() {
               </div>
             </div>
           </section>
-          <hr className="my-5" />
-          <section className="mb-5">
+          <hr className="my-3 mb-4" />
+          <section className="mb-4">
             <div className="row d-flex justify-content-center">
               <div className="col-lg-8">
                 <p>
@@ -65,22 +65,13 @@ export default function Footer() {
           </section>
           <section className="text-center mb-5">
             <a href="" className="text-white me-4">
-              <i className="fab fa-facebook-f"></i>
+              <img src={whatsapp} alt="whatsapp-link" />
             </a>
             <a href="" className="text-white me-4">
-              <i className="fab fa-twitter"></i>
+              <img src={telegram} alt="telegram-link" />
             </a>
             <a href="" className="text-white me-4">
-              <i className="fab fa-google"></i>
-            </a>
-            <a href="" className="text-white me-4">
-              <i className="fab fa-instagram"></i>
-            </a>
-            <a href="" className="text-white me-4">
-              <i className="fab fa-linkedin"></i>
-            </a>
-            <a href="" className="text-white me-4">
-              <i className="fab fa-github"></i>
+              <img src={vk} alt="vk-link" />
             </a>
           </section>
         </div>

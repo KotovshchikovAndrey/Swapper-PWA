@@ -41,7 +41,7 @@ export default function Navbar() {
         </Stack>
         <Button size="small" color={"info"} sx={{ color: "white" }}>
           <Link
-            to="/auth"
+            to={!isAuth ? "/registration" : "/logout"}
             style={{
               textDecoration: "none",
               color: "inherit",
