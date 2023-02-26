@@ -4,7 +4,7 @@ import AuthButton from "components/shared/user/authorization/AuthBotton"
 import { Stack, Alert } from "@mui/material"
 import { useTypedDispatch } from "hooks/redux"
 import { authActions } from "store/reducers/user"
-import { redirect, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 import AuthService from "services/auth"
 

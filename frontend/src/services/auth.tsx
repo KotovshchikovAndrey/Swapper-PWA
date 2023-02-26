@@ -25,9 +25,7 @@ export default class AuthService {
       return user
     } catch (exc) {
       if (exc instanceof HTTPError) {
-        const errorResponse = await exc.response.json()
-        const errorMessage: string = errorResponse.message
-        this.apiErrors.push(errorMessage)
+        await this.setHttpErrorMessages(exc)
       }
 
       return null
