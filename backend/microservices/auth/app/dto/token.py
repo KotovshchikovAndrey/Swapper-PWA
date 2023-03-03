@@ -8,7 +8,7 @@ class TokenPairDTO(tp.TypedDict):
 
 
 @dataclass(frozen=True)
-class TokenUpdateDTO:
+class UpdateTokenDTO:
     user_id: int
     access_token: str
     refresh_token: str

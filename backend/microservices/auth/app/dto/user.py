@@ -12,25 +12,26 @@ class UserDTO(tp.TypedDict):
 
 
 @dataclass(frozen=True)
-class UserResponseDTO:
+class RegisterUserDTO:
+    name: str
+    email: str
+    password: str
+    phone: tp.Optional[str]
+
+
+@dataclass(frozen=True)
+class ResponseUserDTO:
     user: UserDTO
     tokens: TokenPairDTO
 
 
 @dataclass(frozen=True)
-class UserRegisterDTO:
-    name: str
+class LoginUserDTO:
     email: str
     password: str
 
 
 @dataclass(frozen=True)
-class UserLoginDTO:
-    email: str
-    password: str
-
-
-@dataclass(frozen=True)
-class UserLogoutDTO:
+class LogoutUserDTO:
     id: int
     refresh_token: str

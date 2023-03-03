@@ -1,13 +1,15 @@
 import ormar
 
 from core import entities
-from database.connections import postgres_db
+from database.connections import get_connection
 from utils.implementation import Implement
+
+database_connection = get_connection()
 
 
 class BaseMeta(ormar.ModelMeta):
-    metadata = postgres_db.metadata
-    database = postgres_db.database
+    metadata = database_connection.metadata
+    database = database_connection.database
 
 
 @Implement(interface=entities.UserEntity)  # type: ignore

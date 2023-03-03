@@ -1,7 +1,7 @@
 import typing as tp
 
 
-class UserEntity:
+class IUser:
     id: int
     name: str
     email: str
@@ -10,13 +10,13 @@ class UserEntity:
     is_active: bool = False
 
 
-class TokenEntity:
+class IToken:
     id: int
-    user: UserEntity
+    user: IUser
     value: str
 
 
-class CodeEntity:
+class ICode:
     id: int
-    user: UserEntity
+    user: IUser
     value: int

@@ -1,69 +1,47 @@
 import hashlib
 import typing as tp
 
-from utils.injector import injector
-from core.entities import UserEntity
-from core.interfaces.repositories import UserRepository
-from dto.token import TokenUpdateDTO
-from dto.user import *
+from core.entities import IUser
+from database.repositories.user import IUserRepository
+from dto.user import RegisterUserDTO
 from errors.exceptions.api import ApiError
-from services.token import TokenService
+
+from abc import ABC, abstractmethod
+
+service = None
 
 
-class UserService:
-    repository: UserRepository
-    token_service: TokenService
+class IUserService(ABC):
+    @abstractmethod
+    async def create_user(self, dto: RegisterUserDTO) -> IUser:
+        raise NotImplementedError()
 
-    @injector.inject("UserRepository")  # type: ignore
-    @injector.inject("TokenService")
-    def __init__(
-        self,
-        repository: UserRepository,
-        token_service: TokenService,
-    ) -> None:
+    async def check_user_exists(self, email: str) -> bool:
+        raise NotImplementedError()
+
+    @abstractmethod
+    async def authenticate(self, email: str, password: str) -> tp.Optional[IUser]:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def get_password_hash(self, password: str) -> str:
+        raise NotImplementedError()
+
+
+class UserService(IUserService):
+    repository: IUserRepository
+
+    def __init__(self, repository: IUserRepository):
         self.repository = repository
-        self.token_service = token_service
 
-    async def register(self, dto: UserRegisterDTO) -> tp.Tuple[UserEntity, str, str]:
-        email_exists = await self.repository.email_exists(email=dto.email)
-        if email_exists:
-            raise ApiError.bad_request("Пользователь с таким email уже существует!")
+    async def check_user_exists(self, email: str):
+        user = self.repository.find_by_email(email=email)
+        if user is not None:
+            return True
 
-        password_hash = self.get_password_hash(password=dto.password)
-        created_user = await self.repository.create(
-            name=dto.name,
-            email=dto.email,
-            password=password_hash,
-        )
+        return False
 
-        access_token, refresh_token = await self.get_token_pair(
-            user=created_user,
-            payload={
-                "id": created_user.id,
-                "name": created_user.name,
-                "email": created_user.email,
-            },
-        )
-
-        return created_user, access_token, refresh_token
-
-    async def login(self, dto: UserLoginDTO) -> tp.Tuple[UserEntity, str, str]:
-        user_in_db = await self.authenticate(email=dto.email, password=dto.password)
-        if user_in_db is None:
-            raise ApiError.unauthorized(message="Неверный логин или пароль")
-
-        access_token, refresh_token = await self.get_token_pair(
-            user=user_in_db,
-            payload={
-                "id": user_in_db.id,
-                "name": user_in_db.name,
-                "email": user_in_db.email,
-            },
-        )
-
-        return user_in_db, access_token, refresh_token
-
-    async def authenticate(self, email: str, password: str) -> tp.Optional[UserEntity]:
+    async def authenticate(self, email: str, password: str):
         user = await self.repository.find_by_email(email)
         if user is not None:
             password_hash = self.get_password_hash(password)
@@ -71,22 +49,6 @@ class UserService:
                 return user
 
         return None
-
-    async def refresh(self, dto: TokenUpdateDTO) -> tp.Tuple[UserEntity, str, str]:
-        user = await self.repository.get_by_id(id=dto.user_id)
-        if user is None:
-            raise ApiError.not_found(message="Пользователь не найден!")
-
-        new_access_token, new_refresh_token = await self.update_token_pair(
-            user=user,
-            access_token=dto.access_token,
-            refresh_token=dto.refresh_token,
-        )
-
-        return user, new_access_token, new_refresh_token
-
-    async def logout(self, dto: UserLogoutDTO) -> None:
-        await self.token_service.remove_token_from_db(dto.id, dto.refresh_token)
 
     async def update_token_pair(
         self, user: UserEntity, access_token: str, refresh_token: str
@@ -118,3 +80,11 @@ class UserService:
 
     def get_password_hash(self, password: str):
         return hashlib.sha256(password.encode()).hexdigest()
+
+
+# Current UserService implementation for import
+def get_user_service(use_cache: bool = True) -> IUserService:
+    if (service is not None) and use_cache:
+        return service
+
+    return UserService()
