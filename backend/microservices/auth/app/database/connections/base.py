@@ -21,7 +21,7 @@ class SQLConnection(DatabaseConnection):
 
     def __init__(self, url: str) -> None:
         self.__metadata = sqlalchemy.MetaData()
-        self.__database = databases.Database(url=self.db_url)
+        self.__database = databases.Database(url=url)
 
     async def connect(self):
         await self.database.connect()

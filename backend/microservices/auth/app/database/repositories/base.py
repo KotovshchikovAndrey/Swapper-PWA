@@ -1,7 +1,6 @@
 from database.connections.base import SQLConnection
 from database.connections import get_connection
 from abc import ABC
-import ormar
 
 
 class SQLRepository(ABC):

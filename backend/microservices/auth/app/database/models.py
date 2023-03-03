@@ -12,7 +12,7 @@ class BaseMeta(ormar.ModelMeta):
     database = database_connection.database
 
 
-@Implement(interface=entities.UserEntity)  # type: ignore
+@Implement(interface=entities.IUser)  # type: ignore
 class User(ormar.Model):
     class Meta(BaseMeta):  # type: ignore
         tablename = "user"
@@ -25,7 +25,7 @@ class User(ormar.Model):
     is_active = ormar.Boolean(default=False, index=True)
 
 
-@Implement(interface=entities.TokenEntity)  # type: ignore
+@Implement(interface=entities.IToken)  # type: ignore
 class Token(ormar.Model):
     class Meta(BaseMeta):  # type: ignore
         tablename = "token"
@@ -35,7 +35,7 @@ class Token(ormar.Model):
     value = ormar.String(max_length=255, unique=True, nullable=False)
 
 
-@Implement(interface=entities.CodeEntity)  # type: ignore
+@Implement(interface=entities.ICode)  # type: ignore
 class Code(ormar.Model):
     class Meta(BaseMeta):  # type: ignore
         tablename = "code"

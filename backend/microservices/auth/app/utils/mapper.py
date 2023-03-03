@@ -23,10 +23,7 @@ class ApiMapper(tp.Generic[T]):
             cleanes_data = self.schema.load(data)  # type: ignore
             return self.dto(**cleanes_data)  # type: ignore
         except ValidationError as exc:
-            error_messages = self.parse_error_messages(errors=exc.messages_dict)
+            error_messages = exc.messages_dict
             raise ApiError.bad_request(
                 message="Получены невалидные данные!", details=error_messages
             )
-
-    def parse_error_messages(self, errors: tp.Dict[str, tp.List[str]]) -> tp.List[str]:
-        return [message for field in errors for message in errors[field]]

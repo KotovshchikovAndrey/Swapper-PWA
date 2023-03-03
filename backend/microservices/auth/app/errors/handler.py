@@ -17,6 +17,6 @@ async def handle_error(request: Request, exc: Exception):
     print(exc)
     return JSONResponse(
         status_code=500,
-        content={"message": "Непредвиденная ошибка сервера!", "details": []},
+        content={"message": "Непредвиденная ошибка сервера!", "details": {}},
         headers=HEADERS,
     )

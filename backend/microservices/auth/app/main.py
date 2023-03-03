@@ -4,21 +4,20 @@ from starlette.middleware.authentication import AuthenticationMiddleware
 from starlette.middleware.cors import CORSMiddleware
 from starlette.routing import Mount
 
-# dependencies settings
-from core import dependencies  # type: ignore
-
 from api.api_v1.routes import routes as api_v1_routes
-from api.middlewares.auth import JwtAuthBackend
-from database.connections import postgres_db
+from api.middlewares.auth_backend import JwtAuthBackend
+from database.connections import get_connection
 from errors.handler import handle_error
 
 
 async def startup() -> None:
-    await postgres_db.connect()
+    database = get_connection()
+    await database.connect()
 
 
 async def shutdown() -> None:
-    await postgres_db.disconnect()
+    database = get_connection()
+    await database.disconnect()
 
 
 routes = [Mount("/api/v1/auth", name="", routes=api_v1_routes)]

@@ -7,6 +7,8 @@ from database.connections.postgres import PostgreSQLConnection
 from database.models import Token, User
 from database.repositories.base import SQLRepository
 
+repository = None
+
 
 class ITokenRepository(ABC):
     @abstractmethod
@@ -20,11 +22,7 @@ class ITokenRepository(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    async def delete(self, user_id: int, token: str) -> None:
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def find_by_user_id_and_value(self, user_id: int, value: str) -> IUser:
+    async def delete(self, user: IUser, value: str) -> None:
         raise NotImplementedError()
 
 
@@ -33,15 +31,20 @@ class TokenPostgresRepository(SQLRepository, ITokenRepository):
         super().__init__()
 
     async def create(self, user_instance: IUser, value: str):
-        await self._model.objects.create(user=user_instance, value=value)
+        await Token.objects.create(user=user_instance, value=value)
 
     async def update(self, user_instance: IUser, old_value: str, new_value: str):
-        token = await self._model.objects.get(user=user_instance, value=old_value)
+        token = await Token.objects.get(user=user_instance, value=old_value)
         token.value = new_value
         await token.update()
 
-    async def delete(self, user_id: int, token: str):
-        await self._model.objects.delete(user__id=user_id, value=token)
+    async def delete(self, user: IUser, value: str):
+        await Token.objects.delete(user=user, value=value)
 
-    async def find_by_user_id_and_value(self, user_id: int, value: str):
-        return await self._model.objects.get_or_none(user__id=user_id, value=value)
+
+# Current TokenRepository implementation for import
+def get_token_repository(use_cache: bool = True) -> ITokenRepository:
+    if (repository is not None) and use_cache:
+        return repository
+
+    return TokenPostgresRepository()

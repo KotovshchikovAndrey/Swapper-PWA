@@ -1,4 +1,6 @@
 import typing as tp
+
+from core.entities import IUser
 from dataclasses import dataclass
 
 
@@ -8,7 +10,7 @@ class TokenPairDTO(tp.TypedDict):
 
 
 @dataclass(frozen=True)
-class UpdateTokenDTO:
-    user_id: int
+class RefreshTokenDTO:
+    user: IUser
     access_token: str
     refresh_token: str

@@ -2,9 +2,8 @@ import hashlib
 import typing as tp
 
 from core.entities import IUser
-from database.repositories.user import IUserRepository
+from database.repositories.user import IUserRepository, get_user_repository
 from dto.user import RegisterUserDTO
-from errors.exceptions.api import ApiError
 
 from abc import ABC, abstractmethod
 
@@ -12,6 +11,8 @@ service = None
 
 
 class IUserService(ABC):
+    repository: IUserRepository
+
     @abstractmethod
     async def create_user(self, dto: RegisterUserDTO) -> IUser:
         raise NotImplementedError()
@@ -29,13 +30,22 @@ class IUserService(ABC):
 
 
 class UserService(IUserService):
-    repository: IUserRepository
-
-    def __init__(self, repository: IUserRepository):
+    def __init__(self, repository: IUserRepository = get_user_repository()):
         self.repository = repository
 
+    async def create_user(self, dto: RegisterUserDTO):
+        password_hash = self.get_password_hash(password=dto.password)
+        new_user = await self.repository.create(
+            name=dto.name,
+            email=dto.email,
+            password=password_hash,
+            phone=dto.phone,
+        )
+
+        return new_user
+
     async def check_user_exists(self, email: str):
-        user = self.repository.find_by_email(email=email)
+        user = await self.repository.find_by_email(email=email)
         if user is not None:
             return True
 
@@ -49,34 +59,6 @@ class UserService(IUserService):
                 return user
 
         return None
-
-    async def update_token_pair(
-        self, user: UserEntity, access_token: str, refresh_token: str
-    ) -> tp.Tuple[str, str]:
-        payload = self.token_service.decode_refresh_token(
-            refresh_token=refresh_token,
-            access_token=access_token,
-        )
-
-        token_in_db = await self.token_service.check_token_in_db(
-            user_id=user.id,
-            token=refresh_token,
-        )
-
-        if not token_in_db:
-            raise ApiError.forbidden(message="Невалидный токен!")
-
-        return await self.token_service.update_token_pair(user, payload, refresh_token)
-
-    async def get_token_pair(
-        self, user: UserEntity, payload: tp.Dict[str, tp.Any]
-    ) -> tp.Tuple[str, str]:
-        access_token, refresh_token = await self.token_service.create_token_pair(
-            user=user,
-            payload=payload,
-        )
-
-        return access_token, refresh_token
 
     def get_password_hash(self, password: str):
         return hashlib.sha256(password.encode()).hexdigest()

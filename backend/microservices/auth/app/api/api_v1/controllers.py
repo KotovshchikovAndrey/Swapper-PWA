@@ -5,100 +5,105 @@ from starlette.endpoints import HTTPEndpoint
 from starlette.requests import Request
 from starlette.responses import Response
 
-from utils.injector import injector
-from database.connections import postgres_db
+from database.connections import transaction
 
 from dto import token as token_dto
 from dto import user as user_dto
+
 from errors.exceptions.api import ApiError
-from mixins.response import UserResponseMixin
+
+from mixins.response import TokenResponseMixin
 from schemas import user as user_schema
-from services.user import UserService
 from utils.mapper import ApiMapper
 
+from services.auth import get_auth_service
 
-class Registration(HTTPEndpoint, UserResponseMixin):
+
+class Registration(HTTPEndpoint, TokenResponseMixin):
+    service = get_auth_service()
     mapper = ApiMapper(
-        dto=user_dto.UserRegisterDTO,
+        dto=user_dto.RegisterUserDTO,
         schema=user_schema.UserRegisterSchema(),
     )
 
-    @injector.inject("UserService")
-    @postgres_db.database.transaction()
-    async def post(self, request: Request, service: UserService):
+    @transaction
+    async def post(self, request: Request):
         dto = self.mapper.convert_to_dto(await request.json())
-        user, access_token, refresh_token = await service.register(dto)
+        access_token, refresh_token = await self.service.register(dto)
 
-        return self.get_user_response(user, access_token, refresh_token, status=201)
+        return self.get_response(access_token, refresh_token, status=201)
 
 
-class Login(HTTPEndpoint, UserResponseMixin):
+class Login(HTTPEndpoint, TokenResponseMixin):
+    service = get_auth_service()
     mapper = ApiMapper(
-        dto=user_dto.UserLoginDTO,
+        dto=user_dto.LoginUserDTO,
         schema=user_schema.UserLoginSchema(),
     )
 
-    @injector.inject("UserService")
-    @postgres_db.database.transaction()
-    async def post(self, request: Request, service: UserService):
+    @transaction
+    async def post(self, request: Request):
         dto = self.mapper.convert_to_dto(await request.json())
-        user, access_token, refresh_token = await service.login(dto)
+        access_token, refresh_token = await self.service.login(dto)
 
-        return self.get_user_response(user, access_token, refresh_token, status=200)
+        return self.get_response(access_token, refresh_token)
 
 
-class Refresh(HTTPEndpoint, UserResponseMixin):
-    mapper = ApiMapper(dto=token_dto.TokenUpdateDTO)
+class Refresh(HTTPEndpoint, TokenResponseMixin):
+    service = get_auth_service()
+    mapper = ApiMapper(dto=token_dto.RefreshTokenDTO)
 
-    @injector.inject("UserService")
-    @postgres_db.database.transaction()
+    @transaction
     @requires("authenticated")
-    async def patch(self, request: Request, service: UserService):
-        refresh_token = self.get_refresh_token_from_request(request)
-        dto = self.mapper.convert_to_dto(
-            {
-                "user_id": request.user.id,
-                "access_token": request.user.token,
-                "refresh_token": refresh_token,
-            }
-        )
+    async def patch(self, request: Request):
+        current_user = request.user.instance
+        access_token = request.user.token
+        refresh_token = self.get_token_from_cookie(request)
 
-        user, access_token, refresh_token = await service.refresh(dto)
+        convert_data = {
+            "user": current_user,
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+        }
 
-        return self.get_user_response(user, access_token, refresh_token, status=200)
+        dto = self.mapper.convert_to_dto(data=convert_data)
+        access_token, refresh_token = await self.service.refresh(dto)
 
-    def get_refresh_token_from_request(self, request: Request):
-        refresh_token = request.cookies.get("refresh_token", None)
-        if refresh_token is None:
+        return self.get_response(access_token, refresh_token)
+
+    def get_token_from_cookie(self, request: Request):
+        token = request.cookies.get("refresh_token", None)
+        if token is None:
             raise ApiError.forbidden(message="Токен обновления не был получен!")
 
-        return refresh_token
+        return token
 
 
 class Logout(HTTPEndpoint):
-    mapper = ApiMapper(dto=user_dto.UserLogoutDTO)
+    service = get_auth_service()
+    mapper = ApiMapper(dto=user_dto.LogoutUserDTO)
 
-    @injector.inject("UserService")
     @requires("authenticated")
-    async def delete(self, request: Request, service: UserService):
-        refresh_token = self.get_refresh_token_from_request(request)
-        dto = self.mapper.convert_to_dto(
-            {
-                "id": request.user.id,
-                "refresh_token": refresh_token,
-            }
-        )
+    async def delete(self, request: Request):
+        current_user = request.user.instance
+        refresh_token = self.get_token_from_cookie(request)
 
-        await service.logout(dto)
+        convert_data = {
+            "user": current_user,
+            "token": refresh_token,
+        }
+
+        dto = self.mapper.convert_to_dto(data=convert_data)
+        await self.service.logout(dto)
 
         response = Response(status_code=204)
         response.delete_cookie("refresh_token")
 
         return response
 
-    def get_refresh_token_from_request(self, request: Request):
-        refresh_token = request.cookies.get("refresh_token", None)
-        if refresh_token is None:
+    def get_token_from_cookie(self, request: Request):
+        token = request.cookies.get("refresh_token", None)
+        if token is None:
             raise ApiError.forbidden(message="Токен обновления не был получен!")
 
-        return refresh_token
+        return token

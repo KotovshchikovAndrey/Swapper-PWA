@@ -7,6 +7,8 @@ from database.connections.postgres import PostgreSQLConnection
 from database.models import User
 from database.repositories.base import SQLRepository
 
+repository = None
+
 
 class IUserRepository(ABC):
     @abstractmethod
@@ -32,12 +34,12 @@ class UserPostgresRepository(SQLRepository, IUserRepository):
         return await User.objects.get_or_none(id=id)
 
     async def find_by_email(self, email: str):
-        return await self._model.objects.get_or_none(email=email)
+        return await User.objects.get_or_none(email=email)
 
     async def create(
         self, name: str, email: str, password: str, phone: tp.Optional[str] = None
     ):
-        new_user = await self._model.objects.create(
+        new_user = await User.objects.create(
             name=name,
             email=email,
             phone=phone,
@@ -45,3 +47,11 @@ class UserPostgresRepository(SQLRepository, IUserRepository):
         )
 
         return new_user
+
+
+# Current UserRepository implementation for import
+def get_user_repository(use_cache: bool = True) -> IUserRepository:
+    if (repository is not None) and use_cache:
+        return repository
+
+    return UserPostgresRepository()
