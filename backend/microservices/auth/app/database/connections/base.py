@@ -19,10 +19,12 @@ class DatabaseConnection(ABC):
 class SQLConnection(DatabaseConnection):
     __metadata: sqlalchemy.MetaData
     __database: databases.Database
+    __url: str
 
     def __init__(self, url: str) -> None:
         self.__metadata = sqlalchemy.MetaData()
         self.__database = databases.Database(url=url)
+        self.__url = url
 
     async def connect(self):
         await self.database.connect()
@@ -39,3 +41,7 @@ class SQLConnection(DatabaseConnection):
     @property
     def database(self):
         return self.__database
+
+    @property
+    def url(self):
+        return self.__url

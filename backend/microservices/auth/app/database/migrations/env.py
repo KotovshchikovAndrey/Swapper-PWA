@@ -21,10 +21,10 @@ if config.config_file_name is not None:
 # для коннекта к базе данных
 # AppConfig.load_env_config()
 
-from database.models import BaseMeta, postgres_db
+from database.models import BaseMeta, get_connection
 
 target_metadata = BaseMeta.metadata
-config.set_main_option("sqlalchemy.url", postgres_db.db_url)
+config.set_main_option("sqlalchemy.url", get_connection().url)
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
