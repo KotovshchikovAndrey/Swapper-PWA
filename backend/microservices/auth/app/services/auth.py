@@ -1,12 +1,11 @@
 import typing as tp
 from abc import ABC, abstractmethod
 
-from services.user import IUserService, get_user_service
-from services.token import ITokenService, get_token_service
-
-from dto.user import RegisterUserDTO, LoginUserDTO, LogoutUserDTO
 from dto.token import RefreshTokenDTO
+from dto.user import LoginUserDTO, LogoutUserDTO, RegisterUserDTO
 from errors.exceptions.api import ApiError
+from services.token import ITokenService, get_token_service
+from services.user import IUserService, get_user_service
 
 service = None
 
@@ -116,21 +115,3 @@ def get_auth_service(use_cache: bool = True) -> IAuthService:
         return service
 
     return AuthService()
-
-    # async def update_token_pair(
-    #     self, user: UserEntity, access_token: str, refresh_token: str
-    # ) -> tp.Tuple[str, str]:
-    #     payload = self.token_service.decode_refresh_token(
-    #         refresh_token=refresh_token,
-    #         access_token=access_token,
-    #     )
-
-    #     token_in_db = await self.token_service.check_token_in_db(
-    #         user_id=user.id,
-    #         token=refresh_token,
-    #     )
-
-    #     if not token_in_db:
-    #         raise ApiError.forbidden(message="Невалидный токен!")
-
-    #     return await self.token_service.update_token_pair(user, payload, refresh_token)

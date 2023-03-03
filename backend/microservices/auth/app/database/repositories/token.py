@@ -1,10 +1,8 @@
-import typing as tp
+# import typing as tp
+
 from abc import ABC, abstractmethod
 
 from core.entities import IUser
-from database.connections import get_connection
-from database.connections.postgres import PostgreSQLConnection
-from database.models import Token, User
 from database.repositories.base import SQLRepository
 
 repository = None
@@ -31,15 +29,15 @@ class TokenPostgresRepository(SQLRepository, ITokenRepository):
         super().__init__()
 
     async def create(self, user_instance: IUser, value: str):
-        await Token.objects.create(user=user_instance, value=value)
+        await Token.objects.create(user=user_instance, value=value)  # type: ignore
 
     async def update(self, user_instance: IUser, old_value: str, new_value: str):
-        token = await Token.objects.get(user=user_instance, value=old_value)
+        token = await Token.objects.get(user=user_instance, value=old_value)  # type: ignore
         token.value = new_value
-        await token.update()
+        await token.update()  # type: ignore
 
     async def delete(self, user: IUser, value: str):
-        await Token.objects.delete(user=user, value=value)
+        await Token.objects.delete(user=user, value=value)  # type: ignore
 
 
 # Current TokenRepository implementation for import

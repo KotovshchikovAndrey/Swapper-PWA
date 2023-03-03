@@ -1,7 +1,7 @@
 import typing as tp
+from dataclasses import dataclass
 
 from core.entities import IUser
-from dataclasses import dataclass
 
 
 class TokenPairDTO(tp.TypedDict):

@@ -1,4 +1,5 @@
 from core import config
+
 from .base import SQLConnection
 from .postgres import PostgreSQLConnection
 

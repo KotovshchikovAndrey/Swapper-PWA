@@ -1,6 +1,7 @@
-from database.connections.base import SQLConnection
-from database.connections import get_connection
 from abc import ABC
+
+from database.connections import get_connection
+from database.connections.base import SQLConnection
 
 
 class SQLRepository(ABC):

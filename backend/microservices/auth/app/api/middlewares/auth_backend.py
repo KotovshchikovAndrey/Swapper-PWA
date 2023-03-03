@@ -4,10 +4,9 @@ import jwt
 from starlette.authentication import AuthCredentials, AuthenticationBackend, BaseUser
 from starlette.requests import HTTPConnection
 
-from database.repositories.user import get_user_repository
-
 from core import config
 from core.entities import IUser
+from database.repositories.user import get_user_repository
 from errors.exceptions.api import ApiError
 
 
@@ -21,7 +20,7 @@ class JwtUser(BaseUser):
         return True
 
     def __str__(self) -> str:
-        return self.current_user
+        return self.instance.email
 
 
 class JwtAuthBackend(AuthenticationBackend):
@@ -45,9 +44,9 @@ class JwtAuthBackend(AuthenticationBackend):
         )
 
     def decode_token(self, token: str) -> tp.Dict[str, tp.Any]:
-        payload = jwt.decode(
+        payload = jwt.decode(  # type: ignore
             jwt=token,
-            key=config.SECTRET_KEY,
+            key=config.SECTRET_KEY,  # type: ignore
             algorithms=["HS256"],
         )
 

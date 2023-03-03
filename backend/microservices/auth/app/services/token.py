@@ -1,13 +1,11 @@
 import datetime
 import typing as tp
+from abc import ABC, abstractmethod
 
 import jwt
 
-from abc import ABC, abstractmethod
-
 from core import config
 from core.entities import IUser
-
 from database.repositories.token import ITokenRepository, get_token_repository
 from errors.exceptions.api import ApiError
 
@@ -101,9 +99,9 @@ class TokenService(ITokenService):
     def decode_refresh_token(self, refresh_token: str, access_token: str):
         access_token_part = self.get_access_token_part(access_token)
         try:
-            payload = jwt.decode(
+            payload = jwt.decode(  # type: ignore
                 jwt=refresh_token,
-                key=config.SECTRET_KEY + access_token_part,
+                key=config.SECTRET_KEY + access_token_part,  # type: ignore
                 algorithms=["HS256"],
             )
         except jwt.InvalidTokenError:

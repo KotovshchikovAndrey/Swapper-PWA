@@ -1,8 +1,8 @@
 import typing as tp
 
 from marshmallow import fields
-from marshmallow.validate import Length
 from marshmallow.exceptions import ValidationError
+from marshmallow.validate import Length
 
 from utils.validators import *
 

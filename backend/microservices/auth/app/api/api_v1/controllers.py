@@ -6,17 +6,13 @@ from starlette.requests import Request
 from starlette.responses import Response
 
 from database.connections import transaction
-
 from dto import token as token_dto
 from dto import user as user_dto
-
 from errors.exceptions.api import ApiError
-
 from mixins.response import TokenResponseMixin
 from schemas import user as user_schema
-from utils.mapper import ApiMapper
-
 from services.auth import get_auth_service
+from utils.mapper import ApiMapper
 
 
 class Registration(HTTPEndpoint, TokenResponseMixin):

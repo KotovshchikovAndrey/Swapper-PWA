@@ -2,8 +2,6 @@ import typing as tp
 from abc import ABC, abstractmethod
 
 from core.entities import IUser
-from database.connections import get_connection
-from database.connections.postgres import PostgreSQLConnection
 from database.models import User
 from database.repositories.base import SQLRepository
 
@@ -30,13 +28,13 @@ class UserPostgresRepository(SQLRepository, IUserRepository):
     def __init__(self):
         super().__init__()
 
-    async def find_by_id(self, id: int):
+    async def find_by_id(self, id: int):  # type: ignore
         return await User.objects.get_or_none(id=id)
 
-    async def find_by_email(self, email: str):
+    async def find_by_email(self, email: str):  # type: ignore
         return await User.objects.get_or_none(email=email)
 
-    async def create(
+    async def create(  # type: ignore
         self, name: str, email: str, password: str, phone: tp.Optional[str] = None
     ):
         new_user = await User.objects.create(

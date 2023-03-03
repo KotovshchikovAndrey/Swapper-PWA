@@ -1,11 +1,10 @@
 import hashlib
 import typing as tp
+from abc import ABC, abstractmethod
 
 from core.entities import IUser
 from database.repositories.user import IUserRepository, get_user_repository
 from dto.user import RegisterUserDTO
-
-from abc import ABC, abstractmethod
 
 service = None
 
