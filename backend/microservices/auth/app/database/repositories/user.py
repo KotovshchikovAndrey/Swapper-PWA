@@ -5,8 +5,6 @@ from core.entities import IUser
 from database.models import User
 from database.repositories.base import SQLRepository
 
-repository = None
-
 
 class IUserRepository(ABC):
     @abstractmethod
@@ -48,8 +46,11 @@ class UserPostgresRepository(SQLRepository, IUserRepository):
 
 
 # Current UserRepository implementation for import
+user_repository = UserPostgresRepository()
+
+
 def get_user_repository(use_cache: bool = True) -> IUserRepository:
-    if (repository is not None) and use_cache:
-        return repository
+    if use_cache:
+        return user_repository
 
     return UserPostgresRepository()

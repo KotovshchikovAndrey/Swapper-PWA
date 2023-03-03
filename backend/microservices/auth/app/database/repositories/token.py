@@ -6,8 +6,6 @@ from core.entities import IUser
 from database.models import Token
 from database.repositories.base import SQLRepository
 
-repository = None
-
 
 class ITokenRepository(ABC):
     @abstractmethod
@@ -42,8 +40,11 @@ class TokenPostgresRepository(SQLRepository, ITokenRepository):
 
 
 # Current TokenRepository implementation for import
+token_repository = TokenPostgresRepository()
+
+
 def get_token_repository(use_cache: bool = True) -> ITokenRepository:
-    if (repository is not None) and use_cache:
-        return repository
+    if use_cache:
+        return token_repository
 
     return TokenPostgresRepository()

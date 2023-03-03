@@ -7,8 +7,6 @@ from errors.exceptions.api import ApiError
 from services.token import ITokenService, get_token_service
 from services.user import IUserService, get_user_service
 
-service = None
-
 
 class IAuthService(ABC):
     user_service: IUserService
@@ -110,8 +108,11 @@ class AuthService(IAuthService):
 
 
 # Current AuthService implementation for import
+auth_service = AuthService()
+
+
 def get_auth_service(use_cache: bool = True) -> IAuthService:
-    if (service is not None) and use_cache:
-        return service
+    if use_cache:
+        return auth_service
 
     return AuthService()

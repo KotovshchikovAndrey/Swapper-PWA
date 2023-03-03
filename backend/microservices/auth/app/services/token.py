@@ -9,8 +9,6 @@ from core.entities import IUser
 from database.repositories.token import ITokenRepository, get_token_repository
 from errors.exceptions.api import ApiError
 
-service = None
-
 
 class ITokenService(ABC):
     repository: ITokenRepository
@@ -123,8 +121,11 @@ class TokenService(ITokenService):
 
 
 # Current TokenService implementation for import
+token_service = TokenService()
+
+
 def get_token_service(use_cache: bool = True) -> ITokenService:
-    if (service is not None) and use_cache:
-        return service
+    if use_cache:
+        return token_service
 
     return TokenService()

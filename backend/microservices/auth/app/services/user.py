@@ -6,8 +6,6 @@ from core.entities import IUser
 from database.repositories.user import IUserRepository, get_user_repository
 from dto.user import RegisterUserDTO
 
-service = None
-
 
 class IUserService(ABC):
     repository: IUserRepository
@@ -64,8 +62,11 @@ class UserService(IUserService):
 
 
 # Current UserService implementation for import
+user_service = UserService()
+
+
 def get_user_service(use_cache: bool = True) -> IUserService:
-    if (service is not None) and use_cache:
-        return service
+    if use_cache:
+        return user_service
 
     return UserService()
