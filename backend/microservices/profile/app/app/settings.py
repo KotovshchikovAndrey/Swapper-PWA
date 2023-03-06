@@ -24,7 +24,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "debug_toolbar",
-    "app_profile.apps.AppProfileConfig",
+    "profile_app.apps.ProfileAppConfig",
+    "swap_app.apps.SwapAppConfig",
 ]
 
 MIDDLEWARE = [
@@ -101,6 +102,12 @@ STATIC_URL = "static/"
 
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+AUTH_USER_MODEL = "profile_app.User"
+
+
+AUTH_SERVICE_API = os.getenv("AUTH_SERVICE_API")
 
 
 # debug-toolbar

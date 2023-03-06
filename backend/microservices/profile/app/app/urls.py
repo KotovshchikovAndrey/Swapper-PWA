@@ -5,7 +5,7 @@ from app import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/v1/", include("app_profile.urls")),
+    path("api/v1/profile/", include("profile_app.urls")),
 ]
 
 if settings.DEBUG:
